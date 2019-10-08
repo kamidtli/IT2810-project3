@@ -1,6 +1,14 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { ApolloProvider } from '@apollo/react-hooks';
+import { BrowserRouter, Route } from 'react-router-dom';
+
+// Apollo client setup
+const client = new ApolloClient({
+  uri: 'https://localhost:4000/graphql',
+});
+
 
 function App() {
   return (
