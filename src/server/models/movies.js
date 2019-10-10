@@ -3,9 +3,17 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const movieSchema = new Schema({
-  name: String,
-  genre: String,
-  authorId: String,
+  title: String,
+  year: String,
+  released: String,
+  poster: String,
+  type: String,
+  fullplot: String,
+  imdb: String,
+  directors: Array,
+  genres: Array,
+  plot: String,
+
 });
 
 module.exports = mongoose.model('Movie', movieSchema);

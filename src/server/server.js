@@ -2,12 +2,11 @@ const express = require('express');
 const graphqlHTTP = require('express-graphql');
 const mongoose = require('mongoose');
 const schema = require('./schema/schema');
-
+const { graphql, buildSchema } = require('graphql');
 
 const app = express();
 
-// connect to local instance of mongodb database
-mongoose.connect('mongodb://localhost/project3');
+mongoose.connect('mongodb://gruppe16:Hemmelig@it2810-16.idi.ntnu.no:27017/movies', {useNewUrlParser: true});
 mongoose.connection.once('open', () => {
   console.log('connected to database');
 });

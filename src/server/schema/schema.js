@@ -12,34 +12,6 @@ const {
   GraphQLList,
 } = graphql;
 
-// dummy data
-const movies = [
-  {
-    id: '1', name: 'Interstellar', genre: 'Drama', directorId: '1',
-  },
-  { id: '2', name: 'Black Panther', genre: 'Action' },
-  {
-    id: '3', name: 'The Hateful Eight', genre: 'Drama', directorId: '2',
-  },
-  {
-    id: '4', name: 'Dunkirk', genre: 'Drama', directorId: '1',
-  },
-  {
-    id: '5', name: 'The Dark Knight Rises', genre: 'Action', directorId: '1',
-  },
-  {
-    id: '6', name: 'Inglorious Bastards', genre: 'Action', directorId: '2',
-  },
-  {
-    id: '7', name: 'Once Upon a Time in Hollywood', genre: 'Drama', directorId: '2',
-  },
-
-];
-
-const directors = [
-  { id: '1', name: 'Christopher Nolan', age: 49 },
-  { id: '2', name: 'Quentin Tarantino', age: 56 },
-];
 
 const DirectorType = new GraphQLObjectType({
   name: 'Director',
@@ -60,10 +32,13 @@ const MovieType = new GraphQLObjectType({
   name: 'Movie',
   fields: () => ({
     id: { type: GraphQLID },
-    name: { type: GraphQLString },
-    genre: { type: GraphQLString },
-    directorId: { type: GraphQLID },
-    director: {
+    title: { type: GraphQLString },
+    year: { type: GraphQLString },
+    plot: { type: GraphQLString },
+    imdb: { type: GraphQLString },
+    type: { type: GraphQLString },
+    poster: { type: GraphQLString},
+    directors: {
       type: DirectorType,
       resolve(parent, args) {
         return Director.findById(parent.directorId);
@@ -135,7 +110,8 @@ const Mutation = new GraphQLObjectType({
       resolve(parent, args) {
         const movie = new Movie({
           name: args.name,
-          genre: args.genre,
+            plot: args.plot,
+          imbd: args.imdb,
           directorId: args.directorId,
         });
         return movie.save();

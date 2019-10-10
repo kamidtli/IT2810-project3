@@ -1,6 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { ApolloClient } from 'apollo-boost'
 import { ApolloProvider } from '@apollo/react-hooks';
 import { BrowserRouter, Route } from 'react-router-dom';
 
