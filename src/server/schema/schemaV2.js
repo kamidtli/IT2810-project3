@@ -4,7 +4,7 @@ const typeDefs = gql`
     type Movie {
         id: ID!
         title: String!
-        year: String!
+        year: Number!
         runtime: String!
         released: String!
         poster: String!
