@@ -1,30 +1,68 @@
-import { gql } from 'apollo-boost'
+const { makeExecutableSchema } = require('graphql-tools');
+const graphql = require('graphql');
+const Movie = require('../models/movies');
 
-const typeDefs = gql`
+const { GraphQLSchema } = graphql;
+
+const typeDefs = `
     type Movie {
-        id: ID!
+        _id: ID
         title: String!
-        year: String!
-        runtime: String!
-        released: String!
-        poster: String!
-        plot: String!
-        fullplot: String!
+        year: String
+        runtime: String
+        released: String
+        directors: [String]
+        poster: String
+        plot: String
+        fullplot: String
         type:Movie!
-        imdb: String!
-        votes: String!
-        countries: [String!]!
-        genres: [String!]!
-    }
-
-    type Query {
-        movie: [Movie]
-    }
-
-    schema {
-        query: Query
+        imdb: String
+        countries: [String]
+        genres: [String]
+    },
+    
+    input TableMovieFilterInput {
+       title: TableStringFilterInput
+       directors: TableStringFilterInput
+       searchField: TableStringFilterInput
     }
     
+    input TableStringFilterInput {
+      ne: String
+      eq: String
+      le: String
+      lt: String
+      ge: String
+      gt: String
+      contains: String
+      notContains: String
+      between:[String]
+      beginsWith: String
+    }
+    
+    type Query {
+      movieList:[Movie]
+      movie(_id:ID!): Movie
+      searchMovie(title:String):[Movie]
+      filterMovies(filter:TableMovieFilterInput): [Movie]
+    }
 `;
 
-export { typeDefs as default }
+const resolvers = {
+  Query: {
+    movieList: async (args) => {
+      return await Movie.find()
+    },
+    movie: async (root, {_id}) => {
+      return await Movie.findById(_id);
+    },
+    searchMovie: async (root,{title}) => {
+      return await Movie.find({title: title})
+    },
+  }
+};
+
+const schema = makeExecutableSchema({typeDefs, resolvers});
+
+
+module.exports = schema;
