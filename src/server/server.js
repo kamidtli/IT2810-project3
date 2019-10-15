@@ -2,6 +2,7 @@ const express = require('express');
 const graphqlHTTP = require('express-graphql');
 const mongoose = require('mongoose');
 const schema = require('./schema/schema');
+const cors = require("cors");
 const { graphql, buildSchema } = require('graphql');
 
 const app = express();
@@ -11,10 +12,16 @@ mongoose.connection.once('open', () => {
   console.log('connected to database');
 });
 
+app.use(cors());
+
 app.use('/graphql', graphqlHTTP({
   schema,
   graphiql: true,
 }));
+
+app.get('/products/:id', function (req, res, next) {
+  res.json({msg: 'This is CORS-enabled for all origins!'})
+})
 
 app.listen(4000, () => {
   console.log('Now listening for request on port 4000');
