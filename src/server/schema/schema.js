@@ -8,22 +8,20 @@ const {
   GraphQLSchema,
   GraphQLID,
   GraphQLInt,
-  GraphQLList,
+  GraphQLList
 } = graphql;
 
 const MovieType = new GraphQLObjectType({
   name: 'Movie',
   fields: () => ({
-    _id: { type: GraphQLID },
+    id: { type: GraphQLID },
     title: { type: GraphQLString },
-    year: { type: GraphQLString },
+    year: { type: GraphQLInt },
     plot: { type: GraphQLString },
-    fullplot: { type: GraphQLString },
+    imdb: { type: GraphQLString },
     type: { type: GraphQLString },
-    poster: { type: GraphQLString },
-    directors: {type: GraphQLList(GraphQLString) },
-    genres: { type: GraphQLList(GraphQLString) },
-  }),
+    poster: { type: GraphQLString }
+  })
 });
 
 const RootQuery = new GraphQLObjectType({
@@ -31,30 +29,34 @@ const RootQuery = new GraphQLObjectType({
   fields: {
     movie: {
       type: MovieType,
-      args: { _id: { type: GraphQLID } },
+      args: { id: { type: GraphQLID } },
       resolve(parent, args) {
-        // return _.find(movies, { id: args.id });
-        return Movie.findById(args._id);
-      },
+        return Movie.findById(args.id);
+      }
+    },
+    movieList: {
+      type: GraphQLList(MovieType),
+      resolve(parent, args) {
+        return Movie.find({})
+      }
     },
     movies: {
       type: GraphQLList(MovieType),
+      args: {
+        year: { type: GraphQLInt },
+        //title: { type: GraphQLString }
+      },
       resolve(parent, args) {
         // return movies;
-        return Movie.find({});
-      },
-    },
-    searchMovies: {
-      type: GraphQLList(MovieType),
-      args: {name: {type: GraphQLString}},
-      resolve(parents, args) {
-        return Movie.find({where: args.name})
+        return Movie.find({
+          year: args.year,
+          //title: args.title
+        });
       }
     }
-  },
+  }
 });
 
-
 module.exports = new GraphQLSchema({
-  query: RootQuery,
+  query: RootQuery
 });

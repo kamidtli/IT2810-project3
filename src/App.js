@@ -1,74 +1,25 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import { ApolloClient } from 'apollo-boost'
-import gql from 'graphql-tag'
-import { graphql } from 'react-apollo';
-import { ApolloProvider } from '@apollo/react-hooks';
-import { InMemoryCache } from 'apollo-cache-inmemory';
-import { HttpLink } from 'apollo-link-http';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { useQuery } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
 
-const cache = new InMemoryCache();
-const link = new HttpLink({
-  uri: 'http://localhost:4000/graphql'
-});
-
-// Apollo client setup
-const client = new ApolloClient({
-  cache,
-  link
-});
-const searchValue = gql`
-query($searchQuery: String) {
-  filterMovies(filter: {
-    searchField: {
-      contains: $searchQuery
+const GET_MOVIES = gql` 
+  {
+    movie (id: "573a1390f29313caabcd4135") {
+      id
+      title
     }
-  }) {
-    title
-
   }
-}
-`;
-
-const AllMovies = gql`
-{
-  movieList {
-    title
-  }
-}
 `
 
-class App extends React.Component {
-  state = {
-    searchQuery: ''
-  };
-  render(){
-    const searchquery = this.props
-    return (
-          <div className="App">
-            <p>{searchquery.onSearch}</p>
-          </div>
-    );
-  }
+export default function App() {
+  const { data, loading, error } = useQuery(GET_MOVIES);
+  if (loading) return <p>LOADING</p>;
+  if (error) return <p>{error.message}</p>;
+
+  return (
+    <div>
+      {data.movie.id}
+      {data.movie.title}
+    </div>
+  );
 }
-
-const graphqlQuery = graphql(AllMovies, {
-  options: data => ({
-    fetchPolicy: 'cache-and-network'
-  }),
-  props: props => ({
-    onSearch: searchQuery => {
-      return props.data.fetchMore({
-        query: searchQuery === '' ? AllMovies : searchValue, // 10
-        variables: {
-          searchQuery
-        },
-      })
-    },
-    data: props.data
-  })
-});
-
-export default graphqlQuery(App);

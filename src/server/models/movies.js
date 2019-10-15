@@ -4,7 +4,7 @@ const { Schema } = mongoose;
 
 const movieSchema = new Schema({
   title: String,
-  year: String,
+  year: Number,
   released: String,
   poster: String,
   type: String,

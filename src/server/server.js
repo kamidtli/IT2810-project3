@@ -1,8 +1,10 @@
 const express = require('express');
 const graphqlHTTP = require('express-graphql');
 const mongoose = require('mongoose');
-const schema = require('./schema/schemaV2');
+const schema = require('./schema/schema');
+const cors = require("cors");
 const { graphql, buildSchema } = require('graphql');
+
 
 const app = express();
 
@@ -10,6 +12,8 @@ mongoose.connect('mongodb://gruppe16:Hemmelig@it2810-16.idi.ntnu.no:27017/movies
 mongoose.connection.once('open', () => {
   console.log('connected to database');
 });
+
+app.use(cors());
 
 app.use('/graphql', graphqlHTTP({
   schema,
