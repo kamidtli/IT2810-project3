@@ -1,4 +1,6 @@
 import React from 'react';
+import { useQuery } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
 import {
   BrowserRouter as Router, Switch, Route,
 } from 'react-router-dom';
@@ -22,9 +24,23 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+// Test query
+const GET_MOVIES = gql` 
+  {
+    movie (id: "573a1390f29313caabcd4135") {
+      id
+      title
+    }
+  }
+`;
+
 function App() {
   const classes = useStyles();
+  const { data, loading, error } = useQuery(GET_MOVIES);
+  if (loading) return <p>LOADING</p>;
+  if (error) return <p>{error.message}</p>;
 
+  console.log(data.title)
   return (
     <Router>
       <div>
@@ -54,5 +70,3 @@ function App() {
     </Router>
   );
 }
-
-export default App;
