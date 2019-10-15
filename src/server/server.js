@@ -19,10 +19,6 @@ app.use('/graphql', graphqlHTTP({
   graphiql: true,
 }));
 
-app.get('/products/:id', function (req, res, next) {
-  res.json({msg: 'This is CORS-enabled for all origins!'})
-})
-
 app.listen(4000, () => {
   console.log('Now listening for request on port 4000');
 });
