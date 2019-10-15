@@ -44,7 +44,7 @@ const typeDefs = `
       movieList:[Movie]
       movie(_id:ID!): Movie
       searchMovie(title:String):[Movie]
-      filterMovies(filter:TableMovieFilterInput): [Movie]
+      filterMovies(title:String, pagination: Int): [Movie]
     }
 `;
 
@@ -59,6 +59,11 @@ const resolvers = {
     searchMovie: async (root,{title}) => {
       return await Movie.find({title: title})
     },
+    filterMovies: async (root,{title, pagination}) => {
+      return await Movie.find(
+          { title: { $regex: title, $options: 'i' }}
+      ).limit(pagination)
+    }
   }
 };
 
