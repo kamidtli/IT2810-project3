@@ -34,7 +34,6 @@ const resolvers = {
         movie: (title) => {
             return Movie.find({title: title})
         },
-
     }
 }
 

@@ -1,35 +1,25 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import { ApolloClient } from 'apollo-boost'
-import { ApolloProvider } from '@apollo/react-hooks';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { useQuery } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
 
-// Apollo client setup
-const client = new ApolloClient({
-  uri: 'https://localhost:4000/graphql',
-});
+const GET_MOVIES = gql` 
+  {
+    movie (id: "573a1390f29313caabcd4135") {
+      id
+      title
+    }
+  }
+`
 
+export default function App() {
+  const { data, loading, error } = useQuery(GET_MOVIES);
+  if (loading) return <p>LOADING</p>;
+  if (error) return <p>{error.message}</p>;
 
-function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {data.movie.id}
+      {data.movie.title}
     </div>
   );
 }
-
-export default App;
