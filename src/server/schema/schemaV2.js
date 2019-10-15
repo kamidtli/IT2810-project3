@@ -1,4 +1,6 @@
-import { gql } from 'apollo-boost'
+import gql  from 'graphql-tag'
+import { makeExecutableSchema } from 'graphql-tools';
+import Movie from "../models/movies"
 
 const typeDefs = gql`
     type Movie {
@@ -18,13 +20,25 @@ const typeDefs = gql`
     }
 
     type Query {
-        movie: [Movie]
-    }
-
-    schema {
-        query: Query
+        movie: Movie
+        movies: [Movie]
     }
     
 `;
 
-export { typeDefs as default }
+const resolvers = {
+    Query: {
+        movies: () => {
+            return Movie.find()
+        },
+        movie: (title) => {
+            return Movie.find({title: title})
+        },
+
+    }
+}
+
+export const schema = new makeExecutableSchema({
+    typeDefs,
+    resolvers
+});

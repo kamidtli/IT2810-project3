@@ -34,17 +34,23 @@ const RootQuery = new GraphQLObjectType({
         return Movie.findById(args.id);
       }
     },
+    movieList: {
+      type: GraphQLList(MovieType),
+      resolve(parent, args) {
+        return Movie.find({})
+      }
+    },
     movies: {
       type: GraphQLList(MovieType),
       args: {
         year: { type: GraphQLInt },
-        title: { type: GraphQLString }
+        //title: { type: GraphQLString }
       },
       resolve(parent, args) {
         // return movies;
         return Movie.find({
           year: args.year,
-          title: args.title
+          //title: args.title
         });
       }
     }
