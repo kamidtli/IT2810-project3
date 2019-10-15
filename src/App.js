@@ -34,13 +34,13 @@ const GET_MOVIES = gql`
   }
 `;
 
-function App() {
+export default function App() {
   const classes = useStyles();
   const { data, loading, error } = useQuery(GET_MOVIES);
   if (loading) return <p>LOADING</p>;
   if (error) return <p>{error.message}</p>;
 
-  console.log(data.title)
+  console.log(data.movie.title);
   return (
     <Router>
       <div>
