@@ -45,6 +45,8 @@ const typeDefs = `
       movie(_id:ID!): Movie
       searchMovie(title:String):[Movie]
       filterMovies(title:String, pagination: Int): [Movie]
+      findMoviesBasedOnDirector(director:String): [Movie]
+      findMoviesBasedOnYear(year:Int): [Movie]
     }
 `;
 
@@ -59,10 +61,28 @@ const resolvers = {
     searchMovie: async (root,{title}) => {
       return await Movie.find({title: title})
     },
-    filterMovies: async (root,{title, pagination}) => {
+    filterMovies: async (root,{
+      title, 
+      pagination,
+      skip
+    }) => {
       return await Movie.find(
           { title: { $regex: title, $options: 'i' }}
-      ).limit(pagination)
+      ).skip(skip).limit(pagination)
+    },
+    findMoviesBasedOnDirector: async (root, {
+      director
+    }) => {
+      return await Movie.find(
+        {directors: {$regex: director, $options: 'i'}}
+      )
+    },
+    findMoviesBasedOnYear: async (root, {
+      year
+    }) => {
+      return await Movie.find(
+        {year: year}
+      )
     }
   }
 };
