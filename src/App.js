@@ -27,8 +27,8 @@ const useStyles = makeStyles(() => ({
 // Test query
 const GET_MOVIES = gql` 
   {
-    movie (id: "573a1390f29313caabcd4135") {
-      id
+    movie (_id: "573a1390f29313caabcd4135") {
+      _id
       title
     }
   }
