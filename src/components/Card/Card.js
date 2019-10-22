@@ -15,25 +15,26 @@ import { Link } from 'react-router-dom';
 const useStyles = makeStyles((theme) => ({
   card: {
     maxWidth: 345,
-    position: 'relative'
+    display: 'flex',
+    flexDirection: 'column',
   },
   media: {
-   height: 150
+    height: 150,
   },
   content: {
     textOverflow: 'ellipsis',
-    marginBottom: '35px'
+    marginBottom: '35px',
   },
   actions: {
     justifyContent: 'flex-end',
-    position: 'absolute',
-    right: '-10px',
-    bottom: '-10px'
+  },
+  spacer: {
+    flexGrow: 1,
   },
   link: {
     color: theme.palette.text.primary,
-    textDecoration: 'none'
-  }
+    textDecoration: 'none',
+  },
 }));
 
 function MediaCard(props) {
@@ -62,6 +63,7 @@ function MediaCard(props) {
           </CardContent>
         </CardActionArea>
       </Link>
+      <div className={classes.spacer} />
       <CardActions className={classes.actions}>
         <IconButton aria-label="add to favorites">
           <FavoriteIcon />
