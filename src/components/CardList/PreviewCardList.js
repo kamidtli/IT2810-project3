@@ -31,7 +31,7 @@ export default function PreviewCardList() {
 
   const SEARCH_QUERY = gql`
   {
-    findMoviesBasedOnYearRange(min:2015, max: 2019, sort:"-released", pagination:3,){
+    findMoviesBasedOnYearRange(min:2015, max: 2019, sort:"-released", pagination:6,){
         _id
         title
         plot
@@ -61,7 +61,6 @@ export default function PreviewCardList() {
       </Grid>
     ))
   );
-
 
 
   return (

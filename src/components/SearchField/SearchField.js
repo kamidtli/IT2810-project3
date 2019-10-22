@@ -13,7 +13,6 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     position: 'relative',
     margin: 'auto',
-    padding: theme.spacing(2),
     textAlign: 'center',
   },
   textField: {
