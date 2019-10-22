@@ -1,7 +1,8 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/styles';
-import { useParams } from 'react-router-dom';
-import cardData from '../../components/CardList/listData';
+import { useSelector, connect } from 'react-redux';
+import { useQuery } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -55,30 +56,48 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function DetailedCard() {
+function DetailedCard(props) {
   const classes = useStyles();
-  const { id } = useParams();
-  const obj = cardData[id - 1];
+  const currentId = props.selectedItem; // useSelector((state) => state.clickCard[state.clickCard.length - 1].id);
+  const defaultPoster = 'https://images.unsplash.com/photo-1485846234645-a62644f84728?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1340&q=80';
+
+  const SEARCH_QUERY = gql`
+  {
+    movie (_id: "${currentId}") {
+      _id
+      title
+      fullplot
+      poster
+      year
+      directors
+    }
+  }
+  `;
+
+  const { data, loading, error } = useQuery(SEARCH_QUERY);
+  if (loading) return <p>LOADING</p>;
+  if (error) return <p>{error.message}</p>;
 
   return (
     <div className={classes.root}>
       <div className={classes.mediaContainer}>
-        <img src={obj.img} alt="movie cover" className={classes.media} />
+        <img src={data.movie.poster || defaultPoster} alt="movie cover" className={classes.media} />
       </div>
       <div className={classes.textContainer}>
 
         <div className={classes.infoText}>
-          <h1 className={classes.title}>{obj.title}</h1>
+          <h1 className={classes.title}>{data.movie.title}</h1>
           <div className={classes.infoElements}>
-            <h4 className={classes.infoElement}>{obj.age}</h4>
-            <h4 className={classes.infoElement}>{obj.author}</h4>
-            <h4 className={classes.infoElement}>{obj.year}</h4>
-            <h4 className={classes.infoElement}>{obj.duration}</h4>
+            <h4 className={classes.infoElement}>{data.movie.year}</h4>
+            {data.movie.directors.map((director, index) => (
+              <h4 key={data.movie._id.concat(`:${index}`)} className={classes.infoElement}>{director}</h4>
+            ))}
+            <h4 className={classes.infoElement}>{data.movie.runtime}</h4>
           </div>
         </div>
 
         <div className={classes.descText}>
-          <p>{obj.desc}</p>
+          <p>{data.movie.fullplot}</p>
         </div>
       </div>
 
@@ -86,4 +105,12 @@ function DetailedCard() {
   );
 }
 
-export default DetailedCard;
+const mapStateToProps = (state) => ({
+  selectedItem: state.currentCard,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  addPage: (page) => dispatch({ type: 'NEW_PAGE', page }),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(DetailedCard);

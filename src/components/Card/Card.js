@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -10,8 +11,6 @@ import IconButton from '@material-ui/core/IconButton';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import { Link } from 'react-router-dom';
-import Truncate from 'react-truncate';
-
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -29,32 +28,28 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function MediaCard(props) {
+function MediaCard(props) {
   const classes = useStyles();
-  const [cardInfo] = useState(props);
 
   return (
     <Card className={classes.card}>
       <Link
-        to={`/movie/${cardInfo.id}`}
+        to={`/movie/${props.id}`}
         className={classes.link}
+        onClick={() => (props.addCurrentId(props.id))}
       >
         <CardActionArea>
           <CardMedia
             className={classes.media}
-            image={cardInfo.imgUrl}
-            title={cardInfo.title}
+            image={props.imgUrl || 'https://images.unsplash.com/photo-1485846234645-a62644f84728?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1340&q=80'}
+            title={props.title}
           />
           <CardContent>
             <Typography gutterBottom variant="h5" component="h2">
-              <Truncate lines={2} ellipsis={<span>...</span>}>
-                {cardInfo.title}
-              </Truncate>
+              {props.title}
             </Typography>
             <Typography variant="body2" color="textSecondary" component="p">
-              <Truncate lines={2} ellipsis={<span>...</span>}>
-                {cardInfo.shortDescription}
-              </Truncate>
+              {props.shortDescription || 'Not available'}
             </Typography>
           </CardContent>
         </CardActionArea>
@@ -70,3 +65,14 @@ export default function MediaCard(props) {
     </Card>
   );
 }
+
+// Empty because we don't need props here, but need the function in 'connect'
+const mapStateToProps = (state) => ({
+  currentId: state.currentCard,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  addCurrentId: (id) => dispatch({ type: 'CURRENT_CARD', id }),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(MediaCard);

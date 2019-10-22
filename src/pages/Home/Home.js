@@ -5,11 +5,14 @@ import SearchField from '../../components/SearchField/SearchField';
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
     textAlign: 'center',
+    margin: 'auto',
     padding: theme.spacing(2),
     marginTop: theme.spacing(10),
+    maxWidth: 1000,
     color: theme.palette.text.primary,
   },
 }));
@@ -22,10 +25,8 @@ function Home(theme) {
       <ThemeProvider theme={theme}>
 
         <div className={classes.searchContent}>
-        Search for millions of movies and find your next watch
           <SearchField />
         </div>
-
 
       </ThemeProvider>
 

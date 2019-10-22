@@ -1,13 +1,11 @@
 import React from 'react';
-import { useQuery } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
 import {
   BrowserRouter as Router, Switch, Route,
 } from 'react-router-dom';
 import { ThemeProvider, makeStyles } from '@material-ui/styles';
 import Navbar from './components/Navbar/Navbar';
 import Home from './pages/Home/Home';
-import SearchResults from './pages/SearchResults/SearchResults';
+import SearchResults from './pages/Search/Search';
 import DetailedCard from './pages/DetailedCard/DetailedCard';
 import SignIn from './pages/SignIn/SignIn';
 import theme from './theme';
@@ -24,23 +22,9 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-// Test query
-const GET_MOVIES = gql` 
-  {
-    movie (_id: "573a1390f29313caabcd4135") {
-      _id
-      title
-    }
-  }
-`;
-
 export default function App() {
   const classes = useStyles();
-  const { data, loading, error } = useQuery(GET_MOVIES);
-  if (loading) return <p>LOADING</p>;
-  if (error) return <p>{error.message}</p>;
 
-  console.log(data.movie.title);
   return (
     <Router>
       <div>
