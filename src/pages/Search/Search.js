@@ -3,10 +3,14 @@ import { connect } from 'react-redux';
 import { useBottomScrollListener } from 'react-bottom-scroll-listener';
 import { makeStyles } from '@material-ui/styles';
 import SearchResults from '../../components/SearchResults/SearchResults';
+import SortBar from '../../components/SortBar/sortBar';
+import SortFilter from '../../components/SortBar/SortFilter';
+import FilterBar from '../../components/FilterBar/filterBar';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: theme.spacing(10),
@@ -19,12 +23,20 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     color: theme.palette.secondary.main,
   },
+  filterAndSortBar: {
+    display: 'flex',
+    margin: theme.spacing(1),
+  },
 }));
 
 function SearchPage(props) {
   const classes = useStyles();
   const [lastPage, setLastPage] = useState(0);
   const [visitedPages, setVisitedPages] = useState(props.pages);
+  const [genreValue, setGenreValue] = useState('');
+  const [yearRange, setYearRange] = useState([1980, 2019]);
+  const [ratingRange, setRatingRange] = useState([5, 10]);
+  const [sortValue, setSortValue] = useState('-released');
 
   // Increase lastPage to render a new set of results
   const handleOnDocumentBottom = () => {
@@ -42,12 +54,38 @@ function SearchPage(props) {
     200,
   );
 
+  const onUpdate = (value) => {
+    setSortValue(value);
+  };
+  const updateFilterBar = (genre, yearRangeValue, ratingRangeValue) => {
+    setGenreValue(genre);
+    setYearRange(yearRangeValue);
+    setRatingRange(ratingRangeValue);
+  };
+
   return (
     <div className={classes.root}>
-
+      <div className={classes.filterAndSortBar}>
+        <SortFilter
+          onUpdate={onUpdate}
+        />
+        <FilterBar
+          updateFilterBar={updateFilterBar}
+          genre={genreValue}
+          initialYearRange={yearRange}
+          initialRatingRange={ratingRange}
+        />
+      </div>
       <div className={classes.cardList}>
         { visitedPages.map((page) => (
-          <SearchResults key={page} page={page} />
+          <SearchResults
+            key={page}
+            page={page}
+            genreValue={genreValue}
+            yearRange={yearRange}
+            ratingRange={ratingRange}
+            sortValue={sortValue}
+          />
         )) }
       </div>
 

@@ -27,7 +27,8 @@
     "react-truncate": "^2.4.0",
     "redux": "^4.0.4",
     "redux-sessionstorage": "^0.4.0",
-    "saslprep": "^1.0.3"
+    "saslprep": "^1.0.3",
+    "graphql-tag": "latest"
   },
   "scripts": {
     "start": "react-scripts start",
