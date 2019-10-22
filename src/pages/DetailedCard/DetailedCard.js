@@ -1,11 +1,12 @@
 import React from 'react';
+import { useParams } from 'react-router-dom';
 import { makeStyles } from '@material-ui/styles';
 import { connect } from 'react-redux';
 import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import MovieChart from '../../components/MovieChart';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
@@ -15,56 +16,57 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(12),
     maxWidth: 1000,
     overflow: 'hidden',
-    color: theme.palette.text.primary
+    color: theme.palette.text.primary,
   },
   mediaContainer: {
     width: '100%',
     maxHeight: '500px',
     overflow: 'hidden',
-    borderRadius: '5px'
+    borderRadius: '5px',
   },
   media: {
-    width: '100%'
+    width: '100%',
   },
   textContainer: {
     width: '100%',
-    padding: theme.spacing(2)
+    padding: theme.spacing(2),
   },
   infoText: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    padding: theme.spacing(2)
+    padding: theme.spacing(2),
   },
   infoElements: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'flex-end',
     marginLeft: theme.spacing(4),
-    opacity: 0.6
+    opacity: 0.6,
   },
   infoElement: {
     margin: 0,
     whiteSpace: 'nowrap',
-    textAlign: 'right'
+    textAlign: 'right',
   },
   descText: {
-    padding: theme.spacing(2)
+    padding: theme.spacing(2),
   },
   title: {
-    margin: 0
-  }
+    margin: 0,
+  },
 }));
 
 function DetailedCard(props) {
   const classes = useStyles();
+  const { id } = useParams();
   const currentId = props.selectedItem; // useSelector((state) => state.clickCard[state.clickCard.length - 1].id);
   const defaultPoster = 'https://images.unsplash.com/photo-1485846234645-a62644f84728?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1340&q=80';
 
   const SEARCH_QUERY = gql`
   {
-    movie (_id: "${currentId}") {
+    movie (_id: "${id}") {
       _id
       title
       fullplot
@@ -87,7 +89,7 @@ function DetailedCard(props) {
       <div className={classes.mediaContainer}>
         <img
           src={data.movie.poster || defaultPoster}
-          alt='movie cover'
+          alt="movie cover"
           className={classes.media}
         />
       </div>

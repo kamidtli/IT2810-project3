@@ -89,7 +89,7 @@ function Home(theme) {
           >
             {genres.map((genre) => (
               <Grid item xs={6} md={3}>
-                <Link className={classes.link} key={genre} to={`/search?q=${genre}`}>
+                <Link className={classes.link} key={genre} to={`/search/genre/${genre}`}>
                   <Button
                     variant="outlined"
                     color="primary"
@@ -106,7 +106,7 @@ function Home(theme) {
           <h1 className={classes.latestTitle}>Latest releases</h1>
           <PreviewCardList />
           <div className={classes.viewAllButtonContainer}>
-            <Link to="/search?q=">
+            <Link to="/search">
               <Button color="primary">View all</Button>
             </Link>
           </div>

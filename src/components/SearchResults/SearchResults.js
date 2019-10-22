@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from 'react';
-import { useSelector, connect } from 'react-redux';
+import { connect } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import { makeStyles } from '@material-ui/styles';
@@ -31,12 +32,12 @@ function SearchResults(props) {
     ratingRange,
     sortValue,
   } = props;
-  const searchValue = props.search[props.search.length - 1];
+  const { query, genre } = useParams();
 
   const SEARCH_QUERY = gql`
   {
     filterMovies (
-      searchValue: "${searchValue}",
+      searchValue: "${query}",
       genre: "${genreValue}",
       yearRange: [${yearRange[0]},${yearRange[1]}],
       ratingRange: [${ratingRange[0]},${ratingRange[1]}],
@@ -49,20 +50,48 @@ function SearchResults(props) {
   }
   `;
 
+  const GENRE_QUERY = gql`
+  {
+    findMoviesBasedOnGenre ( genre: "${genre}", pagination: 12, skip: ${page * 12}) {
+        _id
+        title
+        plot
+        poster
+    }
+  }
+  `;
+
+  const DEFAULT_QUERY = gql`
+  {
+    findMoviesBasedOnYearRange(min:2015, max: 2019, sort:"-released", pagination: 12, skip: ${page * 12}){
+        _id
+        title
+        plot
+        poster
+    }
+  }
+  `;
+
+  let QUERY = DEFAULT_QUERY;
+  if (query) {
+    QUERY = SEARCH_QUERY;
+  } else if (genre) {
+    QUERY = GENRE_QUERY;
+  }
+
   const {
-    data, loading, error, fetchMore,
-  } = useQuery(SEARCH_QUERY);
+    data, loading, error,
+  } = useQuery(QUERY);
 
   if (loading) return <p>LOADING</p>;
   if (error) return <p>{error.message}</p>;
 
+  const results = genre ? data.findMoviesBasedOnGenre : data.filterMovies;
+
   return (
     <div className={classes.root}>
       <div className={classes.cardList}>
-        <CardList data={data.filterMovies} />
-        {/* {data.filterMovies.map((movie) => (
-            movie.title
-            ))} */}
+        <CardList data={results} />
       </div>
 
     </div>

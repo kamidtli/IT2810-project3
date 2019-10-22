@@ -44,7 +44,7 @@ function SearchField(props) {
   };
 
   if (toResults) {
-    return <Redirect push to={`/search?q=${query}`} />;
+    return <Redirect push to={`/search/${query}`} />;
   }
   return (
     <form className={classes.container} noValidate autoComplete="off">

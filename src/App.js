@@ -42,7 +42,10 @@ export default function App() {
             <Route path="/movie/:id">
               <DetailedCard />
             </Route>
-            <Route path="/search">
+            <Route path="/search/genre/:genre">
+              <SearchResults />
+            </Route>
+            <Route path="/search/:query">
               <SearchResults />
             </Route>
             <Route path="/">
