@@ -9,6 +9,7 @@ import CardList from '../CardList/CardList';
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
     color: theme.palette.secondary.main,
@@ -23,36 +24,27 @@ const useStyles = makeStyles((theme) => ({
 
 function SearchResults(props) {
   const classes = useStyles();
-  const { page } = props;
+  const {
+    page,
+    genreValue,
+    yearRange,
+    ratingRange,
+    sortValue,
+  } = props;
   const searchValue = props.search[props.search.length - 1];
-
-  //   const handleOnDocumentBottom = useCallback(() => {
-  //     fetchMore({
-  //       variables: {
-  //         skip: page * 10,
-  //       },
-  //       updateQuery: (prev, { fetchMoreResult }) => {
-  //         if (!fetchMoreResult) return prev;
-  //         // Append new results to the old ones
-  //         const newResults = [...searchResults, ...fetchMoreResult.filterMovies];
-  //         console.log('Prev', prev);
-  //         console.log('Search results:', searchResults);
-  //         console.log('newResults', newResults);
-  //         addSearchResults(newResults);
-  //         return {
-  //           ...prev, ...fetchMoreResult,
-  //         };
-  //       },
-  //     });
-  //   }, []);
 
   const SEARCH_QUERY = gql`
   {
-    filterMovies (title: "${searchValue}", pagination: 12, skip: ${page * 12}) {
-      _id
-      title
-      plot
-      poster
+    filterMovies (
+      searchValue: "${searchValue}",
+      genre: "${genreValue}",
+      yearRange: [${yearRange[0]},${yearRange[1]}],
+      ratingRange: [${ratingRange[0]},${ratingRange[1]}],
+      sort: "${sortValue}", pagination: 12, skip: ${page * 12} ) {
+        _id
+        title
+        plot
+        poster
     }
   }
   `;
@@ -66,7 +58,6 @@ function SearchResults(props) {
 
   return (
     <div className={classes.root}>
-
       <div className={classes.cardList}>
         <CardList data={data.filterMovies} />
         {/* {data.filterMovies.map((movie) => (

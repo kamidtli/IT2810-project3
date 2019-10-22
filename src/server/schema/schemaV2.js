@@ -1,8 +1,5 @@
 const { makeExecutableSchema } = require('graphql-tools');
-const graphql = require('graphql');
 const Movie = require('../models/movies');
-
-const { GraphQLSchema } = graphql;
 
 const typeDefs = `
     type Movie {
@@ -22,62 +19,106 @@ const typeDefs = `
     }
 
     type ImdbType {
-      rating: String
+      rating: Float
       id: Int
       votes: Int
-    },
-    
-    input TableMovieFilterInput {
-       title: TableStringFilterInput
-       directors: TableStringFilterInput
-       searchField: TableStringFilterInput
-    }
-    
-    input TableStringFilterInput {
-      ne: String
-      eq: String
-      le: String
-      lt: String
-      ge: String
-      gt: String
-      contains: String
-      notContains: String
-      between:[String]
-      beginsWith: String
     }
     
     type Query {
-      movieList:[Movie]
+      allMovies(sort: String, pagination: Int):[Movie]
       movie(_id:ID!): Movie
       searchMovie(title:String):[Movie]
-      filterMovies(title:String, pagination: Int, skip: Int): [Movie]
-      findMoviesBasedOnDirector(director:String): [Movie]
-      findMoviesBasedOnYear(year:Int): [Movie]
+      findMoviesBasedOnTitle(title:String, pagination: Int, skip: Int, sort: String): [Movie]
+      findMoviesBasedOnDirector(director:String, pagination: Int, skip: Int, sort: String): [Movie]
+      findMoviesBasedOnYear(year: Int, pagination: Int, skip: Int, sort: String): [Movie]
+      findMoviesBasedOnGenre(genre: String, pagination: Int, skip: Int, sort: String): [Movie]
+      findMoviesBasedOnYearRange(min: Int, max: Int, pagination: Int, skip: Int, sort: String): [Movie]
+      filterMovies(searchValue: String, genre: String, yearRange:[Int], ratingRange: [Int], pagination: Int, skip: Int, sort: String): [Movie]
     }
 `;
 
 const resolvers = {
   Query: {
-    movieList: async (args) => await Movie.find(),
+    allMovies: async () => await Movie.find(),
     movie: async (root, { _id }) => await Movie.findById(_id),
-    searchMovie: async (root, { title }) => await Movie.find({ title }),
-    filterMovies: async (root, {
+    findMoviesBasedOnTitle: async (root, {
       title,
       pagination,
       skip,
+      sort,
     }) => await Movie.find(
       { title: { $regex: title, $options: 'i' } },
-    ).skip(skip).limit(pagination),
+    )
+      .skip(skip)
+      .limit(pagination)
+      .sort(sort),
     findMoviesBasedOnDirector: async (root, {
       director,
+      pagination,
+      skip,
+      sort,
     }) => await Movie.find(
       { directors: { $regex: director, $options: 'i' } },
-    ),
+    )
+      .skip(skip)
+      .limit(pagination)
+      .sort(sort),
     findMoviesBasedOnYear: async (root, {
       year,
+      pagination,
+      skip,
+      sort,
     }) => await Movie.find(
       { year },
-    ),
+    )
+      .skip(skip)
+      .limit(pagination)
+      .sort(sort),
+    findMoviesBasedOnYearRange: async (root, {
+      min,
+      max,
+      pagination,
+      skip,
+      sort,
+    }) => await Movie.find(
+      { year: { $lte: max, $gte: min } },
+    )
+      .skip(skip)
+      .limit(pagination)
+      .sort(sort),
+    findMoviesBasedOnGenre: async (root, {
+      genre,
+      pagination,
+      skip,
+      sort,
+    }) => await Movie.find(
+      { genres: { $regex: genre, $options: 'i' } },
+    )
+      .skip(skip)
+      .limit(pagination)
+      .sort(sort),
+    filterMovies: async (root, {
+      searchValue,
+      yearRange,
+      ratingRange,
+      genre,
+      pagination,
+      skip,
+      sort,
+    }) => await Movie.find(
+      {
+        $or: [
+          { title: { $regex: searchValue, $options: 'i' } },
+          { directors: { $regex: searchValue, $options: 'i' } },
+        ],
+        genres: { $regex: genre, $options: 'i' },
+        year: { $lte: yearRange[1], $gte: yearRange[0] },
+        'imdb.rating': { $lte: ratingRange[1], $gte: ratingRange[0] },
+      },
+    )
+      .skip(skip)
+      .limit(pagination)
+      .sort(sort),
   },
 };
 
