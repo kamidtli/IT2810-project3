@@ -1,10 +1,11 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/styles';
-import { useSelector, connect } from 'react-redux';
+import { connect } from 'react-redux';
 import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
+import MovieChart from '../../components/MovieChart';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
@@ -14,46 +15,46 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(12),
     maxWidth: 1000,
     overflow: 'hidden',
-    color: theme.palette.text.primary,
+    color: theme.palette.text.primary
   },
   mediaContainer: {
     width: '100%',
     maxHeight: '500px',
     overflow: 'hidden',
-    borderRadius: '5px',
+    borderRadius: '5px'
   },
   media: {
-    width: '100%',
+    width: '100%'
   },
   textContainer: {
     width: '100%',
-    padding: theme.spacing(2),
+    padding: theme.spacing(2)
   },
   infoText: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    padding: theme.spacing(2),
+    padding: theme.spacing(2)
   },
   infoElements: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'flex-end',
     marginLeft: theme.spacing(4),
-    opacity: 0.6,
+    opacity: 0.6
   },
   infoElement: {
     margin: 0,
     whiteSpace: 'nowrap',
-    textAlign: 'right',
+    textAlign: 'right'
   },
   descText: {
-    padding: theme.spacing(2),
+    padding: theme.spacing(2)
   },
   title: {
-    margin: 0,
-  },
+    margin: 0
+  }
 }));
 
 function DetailedCard(props) {
@@ -70,6 +71,9 @@ function DetailedCard(props) {
       poster
       year
       directors
+      imdb {
+        rating
+      }
     }
   }
   `;
@@ -81,16 +85,29 @@ function DetailedCard(props) {
   return (
     <div className={classes.root}>
       <div className={classes.mediaContainer}>
-        <img src={data.movie.poster || defaultPoster} alt="movie cover" className={classes.media} />
+        <img
+          src={data.movie.poster || defaultPoster}
+          alt='movie cover'
+          className={classes.media}
+        />
       </div>
+      <MovieChart
+        id={data.movie._id}
+        imdbRating={parseFloat(data.movie.imdb.rating)}
+        year={data.movie.year}
+      />
       <div className={classes.textContainer}>
-
         <div className={classes.infoText}>
           <h1 className={classes.title}>{data.movie.title}</h1>
           <div className={classes.infoElements}>
             <h4 className={classes.infoElement}>{data.movie.year}</h4>
             {data.movie.directors.map((director, index) => (
-              <h4 key={data.movie._id.concat(`:${index}`)} className={classes.infoElement}>{director}</h4>
+              <h4
+                key={data.movie._id.concat(`:${index}`)}
+                className={classes.infoElement}
+              >
+                {director}
+              </h4>
             ))}
             <h4 className={classes.infoElement}>{data.movie.runtime}</h4>
           </div>
@@ -100,7 +117,6 @@ function DetailedCard(props) {
           <p>{data.movie.fullplot}</p>
         </div>
       </div>
-
     </div>
   );
 }
