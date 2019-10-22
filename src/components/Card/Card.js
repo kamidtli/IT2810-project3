@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
+import Star from '@material-ui/icons/Stars';
 import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
@@ -26,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: '35px',
   },
   actions: {
-    justifyContent: 'flex-end',
+    alignItems: 'center',
   },
   spacer: {
     flexGrow: 1,
@@ -34,6 +35,12 @@ const useStyles = makeStyles((theme) => ({
   link: {
     color: theme.palette.text.primary,
     textDecoration: 'none',
+  },
+  rating: {
+    margin: 0,
+  },
+  ratingIcon: {
+    padding: theme.spacing(1),
   },
 }));
 
@@ -65,6 +72,11 @@ function MediaCard(props) {
       </Link>
       <div className={classes.spacer} />
       <CardActions className={classes.actions}>
+        <Star className={classes.ratingIcon} />
+        <Typography gutterBottom className={classes.rating}>
+          {props.rating}
+        </Typography>
+        <div className={classes.spacer} />
         <IconButton aria-label="add to favorites">
           <FavoriteIcon />
         </IconButton>

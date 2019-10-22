@@ -46,6 +46,9 @@ function SearchResults(props) {
         title
         plot
         poster
+        imdb {
+          rating
+        }
     }
   }
   `;
@@ -57,6 +60,9 @@ function SearchResults(props) {
         title
         plot
         poster
+        imdb {
+          rating
+        }
     }
   }
   `;
@@ -68,6 +74,9 @@ function SearchResults(props) {
         title
         plot
         poster
+        imdb {
+          rating
+        }
     }
   }
   `;

@@ -56,6 +56,7 @@ function CardList(props) {
                 title={movie.title}
                 shortDescription={movie.plot}
                 imgUrl={movie.poster}
+                rating={movie.imdb.rating}
                 id={movie._id}
               />
             </Grid>
