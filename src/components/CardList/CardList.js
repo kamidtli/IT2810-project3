@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'center',
     padding: theme.spacing(2),
+    minWidth: '320px',
   },
   button: {
     margin: theme.spacing(1),
@@ -39,12 +40,18 @@ function CardList(props) {
   const classes = useStyles();
   const { data } = props;
 
+  let mdWidth = 6;
+  let lgWidth = 4;
+  if (data.length === 1) {
+    mdWidth = 12;
+    lgWidth = 12;
+  }
   if (data.length > 0) {
     return (
       <div className={classes.root}>
         <Grid container>
           {data.map((movie) => (
-            <Grid item xs={12} md={6} lg={4} key={movie._id} className={classes.gridItem}>
+            <Grid item xs={12} md={mdWidth} lg={lgWidth} key={movie._id} className={classes.gridItem}>
               <Card
                 title={movie.title}
                 shortDescription={movie.plot}
