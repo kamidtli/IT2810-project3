@@ -27,7 +27,7 @@ export default function SimpleSelect(props) {
   const handleChange = (event) => {
     let newValue = event.target.value;
     if (newValue === '') {
-      newValue = '-released';
+      newValue = '-imdb';
     }
     setValues((oldValues) => ({
       ...oldValues,
@@ -46,9 +46,11 @@ export default function SimpleSelect(props) {
           displayEmpty
           className={classes.selectEmpty}
         >
-          <MenuItem value="">Release date</MenuItem>
+          <MenuItem value="">Rating (Highest first)</MenuItem>
+          <MenuItem value="imdb">Rating (Lowest first)</MenuItem>
+          <MenuItem value="-released">Released (Newest first)</MenuItem>
+          <MenuItem value="released">Released (Oldest first)</MenuItem>
           <MenuItem value="title">Alphabetic</MenuItem>
-          <MenuItem value="imdb">Rating</MenuItem>
         </Select>
       </FormControl>
     </form>

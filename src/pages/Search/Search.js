@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { useBottomScrollListener } from 'react-bottom-scroll-listener';
 import { makeStyles } from '@material-ui/styles';
 import SearchResults from '../../components/SearchResults/SearchResults';
-import SortBar from '../../components/SortBar/sortBar';
 import SortFilter from '../../components/SortBar/SortFilter';
 import FilterBar from '../../components/FilterBar/filterBar';
 
@@ -31,12 +30,11 @@ const useStyles = makeStyles((theme) => ({
 
 function SearchPage(props) {
   const classes = useStyles();
-  const [lastPage, setLastPage] = useState(0);
   const [visitedPages, setVisitedPages] = useState(props.pages);
   const [genreValue, setGenreValue] = useState('');
   const [yearRange, setYearRange] = useState([1980, 2019]);
   const [ratingRange, setRatingRange] = useState([5, 10]);
-  const [sortValue, setSortValue] = useState('-released');
+  const [sortValue, setSortValue] = useState('-imdb');
 
   // Increase lastPage to render a new set of results
   const handleOnDocumentBottom = () => {
