@@ -17,7 +17,6 @@ const useStyles = makeStyles((theme) => ({
   },
   icon: {
     color: theme.palette.primary.contrastText,
-    marginRight: theme.spacing(1),
   },
   link: {
     color: theme.palette.text.primary,

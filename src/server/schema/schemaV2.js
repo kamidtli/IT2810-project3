@@ -16,9 +16,15 @@ const typeDefs = `
         plot: String
         fullplot: String
         type:Movie!
-        imdb: String
+        imdb: ImdbType
         countries: [String]
         genres: [String]
+    }
+
+    type ImdbType {
+      rating: String
+      id: Int
+      votes: Int
     },
     
     input TableMovieFilterInput {
@@ -44,7 +50,7 @@ const typeDefs = `
       movieList:[Movie]
       movie(_id:ID!): Movie
       searchMovie(title:String):[Movie]
-      filterMovies(title:String, pagination: Int): [Movie]
+      filterMovies(title:String, pagination: Int, skip: Int): [Movie]
       findMoviesBasedOnDirector(director:String): [Movie]
       findMoviesBasedOnYear(year:Int): [Movie]
     }
@@ -52,42 +58,30 @@ const typeDefs = `
 
 const resolvers = {
   Query: {
-    movieList: async (args) => {
-      return await Movie.find()
-    },
-    movie: async (root, {_id}) => {
-      return await Movie.findById(_id);
-    },
-    searchMovie: async (root,{title}) => {
-      return await Movie.find({title: title})
-    },
-    filterMovies: async (root,{
-      title, 
+    movieList: async (args) => await Movie.find(),
+    movie: async (root, { _id }) => await Movie.findById(_id),
+    searchMovie: async (root, { title }) => await Movie.find({ title }),
+    filterMovies: async (root, {
+      title,
       pagination,
-      skip
-    }) => {
-      return await Movie.find(
-          { title: { $regex: title, $options: 'i' }}
-      ).skip(skip).limit(pagination)
-    },
+      skip,
+    }) => await Movie.find(
+      { title: { $regex: title, $options: 'i' } },
+    ).skip(skip).limit(pagination),
     findMoviesBasedOnDirector: async (root, {
-      director
-    }) => {
-      return await Movie.find(
-        {directors: {$regex: director, $options: 'i'}}
-      )
-    },
+      director,
+    }) => await Movie.find(
+      { directors: { $regex: director, $options: 'i' } },
+    ),
     findMoviesBasedOnYear: async (root, {
-      year
-    }) => {
-      return await Movie.find(
-        {year: year}
-      )
-    }
-  }
+      year,
+    }) => await Movie.find(
+      { year },
+    ),
+  },
 };
 
-const schema = makeExecutableSchema({typeDefs, resolvers});
+const schema = makeExecutableSchema({ typeDefs, resolvers });
 
 
 module.exports = schema;

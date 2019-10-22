@@ -9,7 +9,7 @@ const movieSchema = new Schema({
   poster: String,
   type: String,
   fullplot: String,
-  imdb: String,
+  imdb: Object,
   directors: [String],
   genres: [String],
   plot: String,

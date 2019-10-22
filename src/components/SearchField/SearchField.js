@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useDispatch, connect } from 'react-redux';
 import { TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Redirect } from 'react-router-dom';
@@ -27,16 +28,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SearchField() {
+function SearchField(props) {
   const classes = useStyles();
   const [toResults, setToResults] = useState(false);
   const [query, setQuery] = useState('');
+  const dispatch = useDispatch();
+  // // useCallback to prevent child components from unnecessarily rendering on changes
+  // const addSearch = useCallback(
+  //   (text) => dispatch(newSearch(text)),
+  //   [dispatch],
+  // );
 
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
       event.target.blur();
       setQuery(event.target.value);
       setToResults(true);
+      props.resetSearch();
+      props.addSearch(event.target.value);
       event.preventDefault();
     }
   };
@@ -57,3 +66,15 @@ export default function SearchField() {
     </form>
   );
 }
+
+// Empty because we don't need props here, but need the function in 'connect'
+const mapStateToProps = (state) => ({
+
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  addSearch: (searchString) => dispatch({ type: 'NEW_SEARCH', searchString }),
+  resetSearch: () => dispatch({ type: 'RESET_SEARCH' }),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchField);
