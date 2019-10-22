@@ -1,7 +1,7 @@
 import React from 'react';
 import { ThemeProvider, makeStyles } from '@material-ui/styles';
 import Box from '@material-ui/core/Box';
-import { shadows } from '@material-ui/system';
+import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 import PreviewCardList from '../../components/CardList/PreviewCardList';
@@ -13,40 +13,58 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    textAlign: 'center',
     margin: 'auto',
-    padding: theme.spacing(2),
-    marginTop: theme.spacing(10),
+    marginTop: theme.spacing(15),
     maxWidth: 1000,
     color: theme.palette.text.primary,
+    paddingBottom: theme.spacing(10),
+  },
+  mainTitle: {
+    margin: 0,
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
   },
   searchBox: {
-    display: 'grid',
-    padding: theme.spacing(1),
-    width: '80vw',
-    paddingLeft: '20px',
-    marginRigth: '40px',
-    gridTemplateColumns: 'repeat(2,1fr)',
+    marginBottom: theme.spacing(4),
+    textAlign: 'center',
+  },
+  searchAndGenreContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    width: '100%',
+    maxwidth: 1000,
   },
   contentBox: {
-    padding: theme.spacing(1),
-    width: '80vw',
-    paddingLeft: '20px',
-    marginRigth: '40px',
-  },
-  container: {
+    maxwidth: 1000,
     marginTop: theme.spacing(6),
-    justifyContent: 'center',
   },
-  titleHeader: {
-    position: 'relative',
+  viewAllButtonContainer: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    marginLeft: theme.spacing(2),
+    marginRight: theme.spacing(2),
   },
-  customButton: {
-    position: 'absolute',
-    right: '10px',
-    top: '0px',
+  latestTitle: {
+    margin: 0,
+    padding: theme.spacing(2),
+    paddingBottom: theme.spacing(0),
   },
-
+  link: {
+    color: theme.palette.text.primary,
+    textDecoration: 'none',
+  },
+  gridContainer: {
+    width: '100%',
+    paddingRight: theme.spacing(2),
+    paddingLeft: theme.spacing(2),
+  },
+  genreButton: {
+    width: '80%',
+    marginTop: theme.spacing(2),
+    marginLeft: '10%',
+    marginRight: '10%',
+  },
 }));
 
 function Home(theme) {
@@ -57,38 +75,42 @@ function Home(theme) {
     <div className={classes.root}>
       <ThemeProvider theme={theme}>
 
-        <div className={classes.searchContent}>
-          <Box boxShadow={2} className={classes.searchBox}>
-            <div>
-              <h1>Search for movies</h1>
-              <SearchField />
-            </div>
-            <div>
-              <h3>Or find a movie based on genre</h3>
-              {genres.map((genre) => (
-                <Link key={genre} to={`/search?q=${genre}`}>
+        <Box className={classes.searchAndGenreContainer}>
+          <div className={classes.searchBox}>
+            <h1 className={classes.mainTitle}>Search for thousands of movies</h1>
+            <SearchField />
+          </div>
+          <Grid
+            container
+            column
+            alignItems="center"
+            justify="space-between"
+            className={classes.gridContainer}
+          >
+            {genres.map((genre) => (
+              <Grid item xs={6} md={3}>
+                <Link className={classes.link} key={genre} to={`/search?q=${genre}`}>
                   <Button
                     variant="outlined"
-                    color="secondary"
+                    color="primary"
+                    className={classes.genreButton}
                   >
                     {genre}
                   </Button>
                 </Link>
-              ))}
-            </div>
-          </Box>
-        </div>
-        <div className={classes.container}>
-          <Box boxShadow={2} className={classes.contentBox}>
-            <div className={classes.titleHeader}>
-              <h1>Latest release</h1>
-              <Link to="/search?q=">
-                <Button className={classes.customButton} variant="contained" color="primary">View more</Button>
-              </Link>
-            </div>
-            <PreviewCardList />
-          </Box>
-        </div>
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
+        <Box className={classes.contentBox}>
+          <h1 className={classes.latestTitle}>Latest releases</h1>
+          <PreviewCardList />
+          <div className={classes.viewAllButtonContainer}>
+            <Link to="/search?q=">
+              <Button color="primary">View all</Button>
+            </Link>
+          </div>
+        </Box>
 
       </ThemeProvider>
 
