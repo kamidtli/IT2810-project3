@@ -1,4 +1,4 @@
-describe('Search fields test', function() {
+describe('Search field homepage test', function() {
     it(`Test the redirect of the search field`, function() {
         cy.visit('/')
         cy.get('#outlined-with-placeholder').type('Pirates {enter}')
@@ -9,4 +9,7 @@ describe('Search fields test', function() {
         cy.get('.MuiGrid-container > :nth-child(7)').should('contain.text', "Pirates of the Great Salt Lake")
         cy.get('.MuiGrid-container').children().should('have.length', 7)
     })
+})
+
+describe('Search field header tests', function() {
 })
