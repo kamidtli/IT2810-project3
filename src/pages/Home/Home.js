@@ -82,13 +82,12 @@ function Home(theme) {
           </div>
           <Grid
             container
-            column
             alignItems="center"
             justify="space-between"
             className={classes.gridContainer}
           >
             {genres.map((genre) => (
-              <Grid item xs={6} md={3}>
+              <Grid key={genre} item xs={6} md={3}>
                 <Link className={classes.link} key={genre} to={`/search/genre/${genre}`}>
                   <Button
                     variant="outlined"
