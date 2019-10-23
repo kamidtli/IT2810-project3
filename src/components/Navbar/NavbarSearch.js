@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/styles';
 import { fade } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
@@ -47,16 +48,15 @@ const useStyles = makeStyles((theme) => ({
 
 function NavbarSearch(props) {
   const classes = useStyles();
-  const [query, setQuery] = useState('');
+  const history = useHistory();
 
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
       event.target.blur();
-      setQuery(event.target.value);
       props.resetSearch();
       props.addSearch(event.target.value);
+      history.push(`/search/${event.target.value}`);
       event.preventDefault();
-      console.log(event.target.value);
     }
   };
 
@@ -66,7 +66,7 @@ function NavbarSearch(props) {
         <SearchIcon />
       </div>
       <InputBase
-        placeholder="Search…"
+        placeholder="Search"
         classes={{
           root: classes.inputRoot,
           input: classes.inputInput,
