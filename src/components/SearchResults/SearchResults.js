@@ -55,7 +55,13 @@ function SearchResults(props) {
 
   const GENRE_QUERY = gql`
   {
-    findMoviesBasedOnGenre ( genre: "${genre}", pagination: 12, skip: ${page * 12}) {
+    findMoviesBasedOnGenre ( 
+      genre: "${genre}",
+      yearRange: [${yearRange[0]},${yearRange[1]}],
+      ratingRange: [${ratingRange[0]},${ratingRange[1]}],
+      sort: "${sortValue}",
+      pagination: 12, 
+      skip: ${page * 12}) {
         _id
         title
         plot

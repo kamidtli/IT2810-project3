@@ -36,7 +36,7 @@ const typeDefs = `
       findMoviesBasedOnTitle(title:String, pagination: Int, skip: Int, sort: String): [Movie]
       findMoviesBasedOnDirector(director:String, pagination: Int, skip: Int, sort: String): [Movie]
       findMoviesBasedOnYear(year: Int, pagination: Int, skip: Int, sort: String): [Movie]
-      findMoviesBasedOnGenre(genre: String, pagination: Int, skip: Int, sort: String): [Movie]
+      findMoviesBasedOnGenre(genre: String, yearRange:[Int], ratingRange: [Int], pagination: Int, skip: Int, sort: String): [Movie]
       findMoviesBasedOnYearRange(min: Int, max: Int, pagination: Int, skip: Int, sort: String): [Movie]
       filterMovies(searchValue: String, genre: String, yearRange:[Int], ratingRange: [Int], pagination: Int, skip: Int, sort: String): [Movie]
       findImdbRatingPerYear(year:Int): [ChartItem]
@@ -78,8 +78,12 @@ const resolvers = {
       .limit(pagination)
       .sort(sort),
     findMoviesBasedOnGenre: async (root, {
-      genre, pagination, skip, sort,
-    }) => await Movie.find({ genres: { $regex: genre, $options: 'i' } })
+      genre, yearRange, ratingRange, pagination, skip, sort,
+    }) => await Movie.find({
+      genres: { $regex: genre, $options: 'i' },
+      year: { $lte: yearRange[1], $gte: yearRange[0] },
+      'imdb.rating': { $lte: ratingRange[1], $gte: ratingRange[0] },
+    })
       .skip(skip)
       .limit(pagination)
       .sort(sort),
