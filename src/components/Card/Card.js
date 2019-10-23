@@ -15,6 +15,7 @@ import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   card: {
+    width: '100%',
     maxWidth: 345,
     display: 'flex',
     flexDirection: 'column',
