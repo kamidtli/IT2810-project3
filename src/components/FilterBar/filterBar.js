@@ -1,19 +1,16 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import gql from 'graphql-tag';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Slider from '@material-ui/core/Slider';
 import Box from '@material-ui/core/Box';
-import { shadows } from '@material-ui/system';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 
 
 const useStyles = makeStyles((theme) => ({
   filterBar: {
     margin: theme.spacing(1),
-    justifySelf: 'right'
+    justifySelf: 'right',
   },
   hiddenList: {
     display: 'none',
@@ -43,18 +40,20 @@ const useStyles = makeStyles((theme) => ({
   sliderPadding: {
     paddingTop: '20px',
     paddingLeft: '20px',
-    paddingRight: '20px'
-  }
+    paddingRight: '20px',
+  },
 
 }));
 
-export default function SortBar({ filterValue, updateFilterBar, genre, initialYearRange, initialRatingRange }) {
+export default function SortBar({
+  filterValue, updateFilterBar, genre, initialYearRange, initialRatingRange,
+}) {
   const classes = useStyles();
   const [filterActive, setFilterList] = useState(false);
   const [yearRange, setYearRange] = useState(initialYearRange);
   const [ratingRange, setRatingRange] = useState(initialRatingRange);
   const [genreValue, setGenreValue] = useState(genre);
-  const genres = ['Action', 'Comedy', 'Documentary', 'Drama', 'Fanatasy', 'Romance', 'Short', 'Thriller' ]
+  const genres = ['Action', 'Comedy', 'Documentary', 'Drama', 'Fanatasy', 'Romance', 'Short', 'Thriller'];
 
   const handleChange = (event, newValue) => {
     setYearRange(newValue);
@@ -86,7 +85,7 @@ export default function SortBar({ filterValue, updateFilterBar, genre, initialYe
         onClick={changeFilterButton}
       >
           Filter
-          <ArrowDropDownIcon />
+        <ArrowDropDownIcon />
       </Button>
       <Box boxShadow={3} className={filterActive ? classes.listActive : classes.hiddenList}>
         <h2 className={classes.title}>Year</h2>
@@ -113,20 +112,23 @@ export default function SortBar({ filterValue, updateFilterBar, genre, initialYe
         </div>
         <h2 className={classes.title}>Genre</h2>
         <Grid item>
-        <Button 
-              variant={genreValue === '' ? "contained" : 'outlined'}
-              color= {genreValue === '' ? "primary": "secondary"}
-              onClick={() => changeGenreValue('')}>
+          <Button
+            variant={genreValue === '' ? 'contained' : 'outlined'}
+            color={genreValue === '' ? 'primary' : 'secondary'}
+            onClick={() => changeGenreValue('')}
+          >
             All
           </Button>
-          {genres.map((genre) => 
-            <Button 
-              variant={genreValue === genre ? "contained" : 'outlined'}
-              color= {genreValue === genre ? "primary": "secondary"}
-              onClick={() => changeGenreValue(genre)}>
-            {genre}
+          {genres.map((genre) => (
+            <Button
+              key={genre}
+              variant={genreValue === genre ? 'contained' : 'outlined'}
+              color={genreValue === genre ? 'primary' : 'secondary'}
+              onClick={() => changeGenreValue(genre)}
+            >
+              {genre}
             </Button>
-          )}
+          ))}
         </Grid>
       </Box>
     </div>

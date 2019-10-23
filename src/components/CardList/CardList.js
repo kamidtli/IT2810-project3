@@ -1,13 +1,8 @@
-import React, { useState } from 'react';
-import { useSelector, connect } from 'react-redux';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-
-import { useQuery } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
+import { connect } from 'react-redux';
 import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
 import Card from '../Card/Card';
-import search from '../../reducers/search';
 
 const useStyles = makeStyles((theme) => ({
   root: {

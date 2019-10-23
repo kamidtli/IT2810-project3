@@ -61,7 +61,6 @@ const useStyles = makeStyles((theme) => ({
 function DetailedCard(props) {
   const classes = useStyles();
   const { id } = useParams();
-  const currentId = props.selectedItem; // useSelector((state) => state.clickCard[state.clickCard.length - 1].id);
   const defaultPoster = 'https://images.unsplash.com/photo-1485846234645-a62644f84728?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1340&q=80';
 
   const SEARCH_QUERY = gql`

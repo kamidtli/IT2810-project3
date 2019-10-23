@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { useBottomScrollListener } from 'react-bottom-scroll-listener';
 import { makeStyles } from '@material-ui/styles';
 import SearchResults from '../../components/SearchResults/SearchResults';
-import SortFilter from '../../components/SortBar/SortFilter';
+import SortFilter from '../../components/SortFilter/SortFilter';
 import FilterBar from '../../components/FilterBar/filterBar';
 
 const useStyles = makeStyles((theme) => ({

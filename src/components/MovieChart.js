@@ -6,11 +6,10 @@ import {
   VerticalGridLines,
   HorizontalGridLines,
   XAxis,
-  YAxis
+  YAxis,
 } from 'react-vis';
 import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
-import { readFileSync } from 'fs';
 
 function MovieChart({ id, imdbRating, year }) {
   const CHART_QUERY = gql`
@@ -26,13 +25,11 @@ function MovieChart({ id, imdbRating, year }) {
   if (loading) return <p>LOADING</p>;
   if (error) return <p>{error.message}</p>;
 
-  const setColor = coordinates => {
-    return coordinates.map(item =>
+  const setColor = (coordinates) => coordinates.map(item =>
       item.x === imdbRating
         ? { x: item.x, y: item.y, color: 'red' }
         : { x: item.x, y: item.y, color: 'green' }
     );
-  };
 
   return (
     <XYPlot width={300} height={300}>
@@ -42,12 +39,12 @@ function MovieChart({ id, imdbRating, year }) {
         curve={null}
         data={setColor(data.findImdbRatingPerYear)}
         opacity={0.8}
-        strokeStyle='solid'
+        strokeStyle="solid"
         style={{}}
-        colorType='literal'
+        colorType="literal"
       />
-      <XAxis title='IMDb Rating' />
-      <YAxis title='Number of movies' />
+      <XAxis title="IMDb Rating" />
+      <YAxis title="Number of movies" />
     </XYPlot>
   );
 }

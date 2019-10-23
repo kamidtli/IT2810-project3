@@ -1,14 +1,9 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
 import Card from '../Card/Card';
-import search from '../../reducers/search';
-import SortBar from '../SortBar/sortBar';
-import FilterBar from '../FilterBar/filterBar';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,7 +37,7 @@ export default function PreviewCardList() {
 
 
   const {
-    data, loading, error, fetchMore,
+    data, loading, error,
   } = useQuery(SEARCH_QUERY);
 
   if (loading) return <p>LOADING</p>;
