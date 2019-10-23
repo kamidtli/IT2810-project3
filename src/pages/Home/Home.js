@@ -1,5 +1,6 @@
 import React from 'react';
 import { ThemeProvider, makeStyles } from '@material-ui/styles';
+import { connect } from 'react-redux';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -67,9 +68,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Home(theme) {
+function Home(props, theme) {
   const classes = useStyles();
   const genres = ['Action', 'Comedy', 'Documentary', 'Drama', 'Fanatasy', 'Romance', 'Short', 'Thriller'];
+
+  const handleGenreClick = () => {
+    props.resetSearch();
+  };
 
   return (
     <div className={classes.root}>
@@ -88,7 +93,7 @@ function Home(theme) {
           >
             {genres.map((genre) => (
               <Grid key={genre} item xs={6} md={3}>
-                <Link className={classes.link} key={genre} to={`/search/genre/${genre}`}>
+                <Link className={classes.link} key={genre} to={`/search/genre/${genre}`} onClick={handleGenreClick}>
                   <Button
                     variant="outlined"
                     color="primary"
@@ -118,4 +123,14 @@ function Home(theme) {
   );
 }
 
-export default Home;
+// Empty because we don't need props here, but need the function in 'connect'
+const mapStateToProps = (state) => ({
+
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  addSearch: (searchString) => dispatch({ type: 'NEW_SEARCH', searchString }),
+  resetSearch: () => dispatch({ type: 'RESET_SEARCH' }),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
