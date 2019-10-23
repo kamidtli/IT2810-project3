@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useBottomScrollListener } from 'react-bottom-scroll-listener';
 import { makeStyles } from '@material-ui/styles';
@@ -35,6 +35,13 @@ function SearchPage(props) {
   const [yearRange, setYearRange] = useState([1980, 2019]);
   const [ratingRange, setRatingRange] = useState([5, 10]);
   const [sortValue, setSortValue] = useState('-imdb');
+
+  // Triggers only after the initial render
+  useEffect(() => {
+    // Resets the search attributes to allow for url searching
+    props.resetSearch();
+    setVisitedPages([0]);
+  }, []);
 
   // Increase lastPage to render a new set of results
   const handleOnDocumentBottom = () => {
@@ -99,6 +106,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   addPage: (page) => dispatch({ type: 'NEW_PAGE', page }),
+  resetSearch: () => dispatch({ type: 'RESET_SEARCH' }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchPage);
