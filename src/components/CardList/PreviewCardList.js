@@ -31,6 +31,9 @@ export default function PreviewCardList() {
         title
         plot
         poster
+        imdb {
+          rating
+        }
     }
   }
   `;
@@ -51,6 +54,7 @@ export default function PreviewCardList() {
           title={movie.title}
           shortDescription={movie.plot}
           imgUrl={movie.poster}
+          rating={movie.imdb.rating}
           id={movie._id}
         />
       </Grid>
