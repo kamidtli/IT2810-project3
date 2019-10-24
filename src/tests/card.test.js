@@ -11,8 +11,4 @@ describe('Card component', () => {
     const card = shallow(<ThemeProvider theme={theme}><Card /></ThemeProvider>);
     expect(card.toJSON).toMatchSnapshot();
   });
-  it('is correct type', () => {
-    const card = shallow(<ThemeProvider theme={theme}><Card /></ThemeProvider>);
-    expect(card.children).toHaveLength(10)
-  });
 });
