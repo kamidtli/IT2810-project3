@@ -31,6 +31,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+/**
+ * Card list for showing multiple cards
+ * @param {*} props 
+ * Props is a JSON object it gets from 
+ * GraphQL with data about
+ * id, title, link, imgUrl, short description
+ */
+
 function CardList(props) {
   const classes = useStyles();
   const { data } = props;
