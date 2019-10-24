@@ -5,9 +5,10 @@ const schema = require('./schema/schemaV2');
 const cors = require("cors");
 const { graphql, buildSchema } = require('graphql');
 
-
+// Express application
 const app = express();
 
+// Connects Mongoose to the MongoDB database
 mongoose.connect('mongodb://gruppe16:Hemmelig@it2810-16.idi.ntnu.no:27017/movies', {useNewUrlParser: true});
 mongoose.connection.once('open', () => {
   console.log('connected to database');
@@ -15,6 +16,8 @@ mongoose.connection.once('open', () => {
 
 app.use(cors());
 
+
+// Initializing the GraphQL schema 
 app.use('/graphql', graphqlHTTP({
   schema,
   graphiql: true,

@@ -45,6 +45,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+/**
+ * Card component for showing a movie card
+ * @param {*} props 
+ * Props is a JSON object it gets from 
+ * GraphQL with data about
+ * id, title, link, imgUrl, short description
+ */
+
 function MediaCard(props) {
   const classes = useStyles();
 
