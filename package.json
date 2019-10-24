@@ -42,9 +42,10 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "jest",
+    "testcoverage": "jest --coverage",
     "eject": "react-scripts eject",
     "cypress": "cypress open",
-    "cy:run": "cypress run"
+    "cypress:run": "cypress run"
   },
   "jest": {
     "testPathIgnorePatterns": [
