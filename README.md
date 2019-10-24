@@ -14,7 +14,7 @@ The project can be found [here](http://it2810-16.idi.ntnu.no/prosjekt3/)
 
 IMDbest is a website for finding movies. The website have a large database of movies from many directors and genres. On IMDbest you can search for movies based on title or director. 
 You can also find movies based on genre. On the homepage, you have easy access to the searchfield and see the latest released movies. 
-You can also make your own user and save your favorite movies  
+You can also make your own user and save your favorite movies.
 
 ## Technology
 
@@ -34,12 +34,6 @@ connect to a backend and many of the network logistics features are implemented.
 We have choose to use Express js, because it makes a lot of the logistics easier. It makes it possible to connect to a database using 
 MongoDB and Mongoose, which we also intended to use. 
 
-### Mongoose
-For modeling your application data, Mongoose offers a simple, schema-based solution. 
-It includes built-in casting, validation, query construction, hooks for business logic, and more, out of the box. 
-
-To connect our database to the express server and node js, we uses mongoose. Mongoose is a elegant MongoDB object modeling for node.js, which makes it
-easier for use to model the application data, and to connect to mongodb database. 
 
 ### GraphQL
 GraphQL is a query language for APIs and a can be used instead of REST API. GraphQL is different from REST API in the sense that it only gets
@@ -48,6 +42,22 @@ concrete data requirement you query instead of all the data.
 We have choosen to use GraphQL for our query language, since we were curious on how GraphQL worked and wanted to learn more.
 Some of the groups members had a some experience with use of REST API, but we all agreed to use GraphQL, because we wanted to learn more.
 
+Our logic for GraphQL is located in the server folder. In the server folder, there is a schema file, which contains the type definitions and resolvers. 
+The type definitions is a JSON object which are describing all the types in the database, mutations, and the possible queries you can make. The queries
+definied makes the foundation for which data you can ask for later from the frontend. The query definition tells you which arguments it takes as input and 
+which data it gives out. But the query definition is not enough for graphql to receive the data from the database. You also need to match the 
+query definitions with a resolver. There are a resolver for each query and it is the logisitic for how to receive the data from the database. Here Mongoose
+plays a big part. Mongoose is the middle man between the MongoDB database and GraphQL. To make Mongoose work, we also define specific models for 
+Mongoose, which matches the type definitions in the GrapQL query definitions. 
+
+### Mongoose
+For modeling your application data, Mongoose offers a simple, schema-based solution. 
+It includes built-in casting, validation, query construction, hooks for business logic, and more, out of the box. 
+
+To connect our database to the express server and node js, we uses mongoose. Mongoose is a elegant MongoDB object modeling for node.js, which makes it
+easier for use to model the application data, and to connect to mongodb database. 
+
+
 ### Apollo Client
 Apollo Client is a complete state management library for JavaScript apps. 
 When using Apollo Client it makes it much simpler to write GraphQL queries.
@@ -55,9 +65,18 @@ After you have written a query , the Apollo Client will take care of requesting 
 
 We have choose to use Apollo Client, because that makes it easier to connect the GraphQL query language with the frontend. 
 
+We use Apollo as provider of data from the database. This can be done by giving a GraphQL query to a function from Apollo, which gives the data back 
+in a JSON object. In that way, we can use the data from the query directly in the frontend.
+
+
+### Redux
+
 
 
 ### Testing
+
+
+## Installation
 
 
 
