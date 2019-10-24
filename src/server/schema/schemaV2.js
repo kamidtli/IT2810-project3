@@ -1,6 +1,7 @@
 const { makeExecutableSchema } = require('graphql-tools');
 const Movie = require('../models/movies');
 
+// GraphQL type definitions
 const typeDefs = `
     type Movie {
         _id: ID
@@ -43,6 +44,7 @@ const typeDefs = `
     }
 `;
 
+// Resolvers for the GraphQL schema
 const resolvers = {
   Query: {
     allMovies: async () => await Movie.find(),
@@ -87,6 +89,8 @@ const resolvers = {
       .skip(skip)
       .limit(pagination)
       .sort(sort),
+
+    // Main query for the search. Filters on search value, year range, rating range and genre
     filterMovies: async (
       root,
       {
