@@ -74,6 +74,21 @@ in a JSON object. In that way, we can use the data from the query directly in th
 
 
 ### Testing
+For testing we have choosen to use Cypress for end-to-end testing and Jest and Enzyme for unit testing.
+
+Cypress is a JavaScript framework for end-to-end testing, which makes it easier to test user interactions. Cypress have a graphical user interface which
+makes it easy to see whats beeing tested. With Cypress you can simulate how a user will interact with the page, and check if all the components are 
+working properly and that the redirect between pages are loading correct. Cypress can also test if the data are loading properly and that the backend are
+working. 
+
+Jest is also a JavaScript framwork for testing, but can also be used for unit testing. Jest makes it easy to write snapshot-tests. Snapshot test makes 
+it easy to check that no code have changed unintendedly. Enzyme is also test framework, which interacts with Jest, and making it easier to test. 
+
+We have written several test, both in Jest and Cypress. The Cypress tests are situated in the Cypress folder in the root directory. 
+To run the Cypress test write `npm run cypress:run`. Note: The website has to be up and running for the test to run. That means that if you are trying to 
+run the tests locally, you need to run both the node server and react application. 
+
+To run the test in Jest run the command `npm test`
 
 
 ## Installation
