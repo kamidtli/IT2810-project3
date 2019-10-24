@@ -25,11 +25,9 @@ function MovieChart({ id, imdbRating, year }) {
   if (loading) return <p>LOADING</p>;
   if (error) return <p>{error.message}</p>;
 
-  const setColor = (coordinates) => coordinates.map(item =>
-      item.x === imdbRating
-        ? { x: item.x, y: item.y, color: 'red' }
-        : { x: item.x, y: item.y, color: 'green' }
-    );
+  const setColor = (coordinates) => coordinates.map((item) => (item.x === imdbRating
+    ? { x: item.x, y: item.y, color: 'red' }
+    : { x: item.x, y: item.y, color: 'green' }));
 
   return (
     <XYPlot width={300} height={300}>
