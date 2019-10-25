@@ -25,12 +25,20 @@ state management tool.
 
 ### [Material UI](https://material-ui.com/)
 
-Material UI is a React component library which have finished react components already made.
-With already built components, it takes less time to build your website.
+Material UI is a React component library which have finished react components already made. With already built components, it takes less time to build our website.
 
 We have used many of the components from Material UI, which has made it simpler to build the website, and saved us some time. It also has made the design more coherent with the same design expression over all the pages.
 
 ### Redux
+We chose to use Redux as a state management library because of Redux's popularity and well documented APIs. The redux store is used to keep information about the client's state and is stored locally at the client. The information we store is
+
+* Filter data such as sorting values, active genre, preferred rating and year range.
+* User data such as username and corresponding watchlist (which is cross-validated with the database content).
+* Recent searches.
+* Visited pages, to allow for dynamic loading of new data.
+* ID of the last movie visited.
+
+By storing this information in the redux store we can keep the filter values consistent, even though the user updates the search query, or moves between detailed movie views and list views, and the user information allows for a fast and consistent rendering of the user's watchlist.
 
 ## Backend
 
@@ -72,21 +80,15 @@ query definitions with a resolver. There is a resolver for each query and it is 
 plays a big part. Mongoose is the middle man between the MongoDB database and GraphQL. To make Mongoose work we also define specific models, which matches the type definitions in the GraphQL query definitions.
 
 #### Search
-
-When you type the name of a movie or a director in the search field and press enter. The website executes a GraphQL query called filterMovies. The filterMovies query takes the search input and gets
-all the movies or movies from directors which fits with the input. The user is then redirected to a new page, which shows the result. You can both search from the search field in the header
-and from the search field on the homepage.
+When you type the name of a movie or a director in the search field and press enter, the website executes a GraphQL query called filterMovies. The filterMovies query takes the search input and gets all the movies or movies from directors which fits with the input. The user is then redirected to a new page, which shows the result. You can both search from the search field in the navbar and from the search field on the homepage. 
 
 #### Dynamic loading
+When a user scrolls to the bottom a search result page, a query is sent to the backend to request additional data. The response data is rendered at the bottom of the page and the amount of pages visited is increased in the Redux store to ensure consistency. Every time a query for new data is sent, the amout of data currently rendered is passed as an argument to make sure we don't query and show overlapping data. By implementing dynamic loading we reduce the amount of bandwidth needed, and minimize the overall load on the user. In addition to this the request for data executes in a fraction of the time it takes to request all relevant data.
 
 #### Filtering and sorting
+The filtering and sorting on the web page is done by the graphql query and filters/sorts all relevant data. The GraphQL query takes in search value, genre, year range, and rating range, which are used to filter out the unwanted data. 
 
-The filtering and sorting on the web page is done by the graphql query. The GraphQL query takes in
-both search value, genre, year range, and rating range, which are used to filter out the
-wrong data from the dataset.
-
-The sorting is done by a built-in function from Mongoose, which sorts on either alphabetically,
-rating or release date.
+The sorting is done by a built-in function from Mongoose, which sorts either alphabetically, by rating or by release date. 
 
 ### Mongoose
 
