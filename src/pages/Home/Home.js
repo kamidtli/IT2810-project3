@@ -2,7 +2,6 @@ import React from 'react';
 import { ThemeProvider, makeStyles } from '@material-ui/styles';
 import { connect } from 'react-redux';
 import Box from '@material-ui/core/Box';
-import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 import PreviewCardList from '../../components/CardList/PreviewCardList';
@@ -28,6 +27,10 @@ const useStyles = makeStyles((theme) => ({
   searchBox: {
     marginBottom: theme.spacing(4),
     textAlign: 'center',
+    margin: 'auto',
+    padding: theme.spacing(2),
+    marginTop: theme.spacing(10),
+    maxWidth: 1000,
   },
   searchAndGenreContainer: {
     display: 'flex',
@@ -70,41 +73,15 @@ const useStyles = makeStyles((theme) => ({
 
 function Home(props, theme) {
   const classes = useStyles();
-  const genres = ['Action', 'Comedy', 'Documentary', 'Drama', 'Fanatasy', 'Romance', 'Short', 'Thriller'];
-
-  const handleGenreClick = () => {
-    props.resetSearch();
-  };
 
   return (
     <div className={classes.root}>
       <ThemeProvider theme={theme}>
-
         <Box className={classes.searchAndGenreContainer}>
           <div className={classes.searchBox}>
             <h1 className={classes.mainTitle}>Search for thousands of movies</h1>
             <SearchField />
           </div>
-          <Grid
-            container
-            alignItems="center"
-            justify="space-between"
-            className={classes.gridContainer}
-          >
-            {genres.map((genre) => (
-              <Grid key={genre} item xs={6} md={3}>
-                <Link className={classes.link} key={genre} to={`/search/genre/${genre}`} onClick={handleGenreClick}>
-                  <Button
-                    variant="outlined"
-                    color="primary"
-                    className={classes.genreButton}
-                  >
-                    {genre}
-                  </Button>
-                </Link>
-              </Grid>
-            ))}
-          </Grid>
         </Box>
         <Box className={classes.contentBox}>
           <h1 className={classes.latestTitle}>Latest releases</h1>

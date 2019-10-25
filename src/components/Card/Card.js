@@ -12,6 +12,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import Star from '@material-ui/icons/Stars';
 import { Link } from 'react-router-dom';
+import WatchlistButton from '../WatchlistButton/WatchlistButton';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -28,14 +29,15 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: '35px',
   },
   actions: {
+    justifyContent: 'flex-end',
     alignItems: 'center',
-  },
-  spacer: {
-    flexGrow: 1,
   },
   link: {
     color: theme.palette.text.primary,
     textDecoration: 'none',
+  },
+  spacer: {
+    flexGrow: 1,
   },
   rating: {
     margin: 0,
@@ -47,8 +49,8 @@ const useStyles = makeStyles((theme) => ({
 
 /**
  * Card component for showing a movie card
- * @param {*} props 
- * Props is a JSON object it gets from 
+ * @param {*} props
+ * Props is a JSON object it gets from
  * GraphQL with data about
  * id, title, link, imgUrl, short description
  */
@@ -61,12 +63,15 @@ function MediaCard(props) {
       <Link
         to={`/movie/${props.id}`}
         className={classes.link}
-        onClick={() => (props.addCurrentId(props.id))}
+        onClick={() => props.addCurrentId(props.id)}
       >
         <CardActionArea>
           <CardMedia
             className={classes.media}
-            image={props.imgUrl || 'https://images.unsplash.com/photo-1485846234645-a62644f84728?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1340&q=80'}
+            image={
+              props.imgUrl
+              || 'https://images.unsplash.com/photo-1485846234645-a62644f84728?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1340&q=80'
+            }
             title={props.title}
           />
           <CardContent>
@@ -86,12 +91,7 @@ function MediaCard(props) {
           {props.rating}
         </Typography>
         <div className={classes.spacer} />
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
-        </IconButton>
-        <IconButton aria-label="share">
-          <ShareIcon />
-        </IconButton>
+        <WatchlistButton id={props.id} />
       </CardActions>
     </Card>
   );
@@ -106,4 +106,7 @@ const mapDispatchToProps = (dispatch) => ({
   addCurrentId: (id) => dispatch({ type: 'CURRENT_CARD', id }),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(MediaCard);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(MediaCard);

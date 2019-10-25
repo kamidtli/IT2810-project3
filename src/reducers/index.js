@@ -3,6 +3,8 @@ const initialState = {
   lastPage: false,
   search: [],
   currentCard: '',
+  user: null,
+  watchlist: null,
 };
 
 const reducer = (state = initialState, action) => {
@@ -24,6 +26,26 @@ const reducer = (state = initialState, action) => {
       break;
     case 'CURRENT_CARD':
       newState.currentCard = action.id;
+      break;
+    case 'LOGIN_USER':
+      newState.user = action.username;
+      break;
+    case 'LOG_OUT':
+      newState.user = null;
+      break;
+    case 'CREATE_WATCHLIST':
+      newState.watchlist = action.movies;
+      break;
+    case 'ADD_TO_WATCHLIST':
+      newState.watchlist.push(action.movieID);
+      break;
+    case 'REMOVE_FROM_WATCHLIST':
+      newState.watchlist = newState.watchlist.filter(
+        (movie) => movie !== action.movieID,
+      );
+      break;
+    case 'CLEAR_WATCHLIST':
+      newState.watchlist = null;
       break;
     default:
       break;

@@ -1,11 +1,13 @@
 import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import { makeStyles } from '@material-ui/styles';
+import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 import { fade } from '@material-ui/core/styles';
 import NavbarSearch from './NavbarSearch';
 import SideMenu from '../SideMenu/sideMenu';
+import UserIcon from '../UserIcon/UserIcon';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -61,19 +63,32 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Navbar() {
+function Navbar(props) {
   const classes = useStyles();
+  const { user } = props;
 
   return (
     <AppBar className={classes.root}>
       <SideMenu />
       <div className={classes.spacer} />
       <NavbarSearch />
-      <Link to="/auth">
-        <Button variant="contained" color="secondary" className={classes.button}>
+      { !user
+        ? (
+          <Link to="/auth">
+            <Button variant="contained" color="secondary" className={classes.button}>
           SIGN IN
-        </Button>
-      </Link>
+            </Button>
+          </Link>
+        )
+        : <UserIcon />}
     </AppBar>
   );
 }
+
+const mapStateToProps = (state) => ({
+  user: state.user,
+});
+
+export default connect(
+  mapStateToProps,
+)(Navbar);

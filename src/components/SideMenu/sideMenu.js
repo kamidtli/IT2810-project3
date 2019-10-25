@@ -31,7 +31,10 @@ export default function SideMenu() {
   });
 
   const toggleDrawer = (side, open) => (event) => {
-    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+    if (
+      event.type === 'keydown'
+      && (event.key === 'Tab' || event.key === 'Shift')
+    ) {
       return;
     }
 
@@ -46,13 +49,16 @@ export default function SideMenu() {
       onKeyDown={toggleDrawer(side, false)}
     >
       <List>
-        {['Home', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          <Link to="/" className={classes.link} key={text}>
-            <ListItem button>
-              <ListItemText primary={text} />
-            </ListItem>
-          </Link>
-        ))}
+        <Link to="/" className={classes.link}>
+          <ListItem button>
+            <ListItemText primary="Home" />
+          </ListItem>
+        </Link>
+        <Link to="/watchlist" className={classes.link}>
+          <ListItem button>
+            <ListItemText primary="Watchlist" />
+          </ListItem>
+        </Link>
       </List>
     </div>
   );
@@ -60,11 +66,13 @@ export default function SideMenu() {
   return (
     <div>
       <Button onClick={toggleDrawer('left', true)} className={classes.icon}>
-        <MenuIcon
-          fontSize="large"
-        />
+        <MenuIcon fontSize="large" />
       </Button>
-      <Drawer anchor="left" open={state.left} onClose={toggleDrawer('left', false)}>
+      <Drawer
+        anchor="left"
+        open={state.left}
+        onClose={toggleDrawer('left', false)}
+      >
         {sideList('left')}
       </Drawer>
     </div>
