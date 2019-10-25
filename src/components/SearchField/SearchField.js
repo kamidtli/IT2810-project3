@@ -19,12 +19,6 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
   },
-  dense: {
-    marginTop: theme.spacing(2),
-  },
-  menu: {
-    width: 200,
-  },
 }));
 
 function SearchField(props) {
@@ -34,6 +28,7 @@ function SearchField(props) {
 
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
+      // If no search value, then don't redirect
       if (!event.target.value) {
         event.target.blur();
         event.preventDefault();
@@ -64,14 +59,9 @@ function SearchField(props) {
   );
 }
 
-// Empty because we don't need props here, but need the function in 'connect'
-const mapStateToProps = (state) => ({
-
-});
-
 const mapDispatchToProps = (dispatch) => ({
   addSearch: (searchString) => dispatch({ type: 'NEW_SEARCH', searchString }),
   resetSearch: () => dispatch({ type: 'RESET_SEARCH' }),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchField);
+export default connect(null, mapDispatchToProps)(SearchField);

@@ -2,13 +2,10 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import gql from 'graphql-tag';
-import { useQuery, useMutation } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/react-hooks';
 import { makeStyles } from '@material-ui/core/styles';
-import CardActions from '@material-ui/core/CardActions';
-import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import WatchLaterIcon from '@material-ui/icons/WatchLater';
+import { CardActions, IconButton, Tooltip } from '@material-ui/core/';
+import WatchlistIcon from '@material-ui/icons/PlaylistAdd';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 
 const useStyles = makeStyles((theme) => ({
@@ -30,24 +27,8 @@ const useStyles = makeStyles((theme) => ({
 function MediaCard(props) {
   const classes = useStyles();
   const [isInWatchlist, setIsInWatchlist] = useState();
-  const username = props.user;
-  const watchlist = props.watchlist;
+  const { watchlist, user } = props;
   const history = useHistory();
-
-  // Query to get a user has the movie in the watchlist or not
-  const WATCHLIST_QUERY = gql`
-    query isInWatchlist($name: String, $movieID: ID) {
-      isInWatchlist(name: $name, movieID: $movieID)
-    }
-  `;
-
-  const { data } = useQuery(
-    WATCHLIST_QUERY,
-    {
-      variables: { name: username, movieID: props.id }
-    },
-    { fetchPolicy: 'network-only' }
-  );
 
   // Mutation to add movie to the watchlist
   const ADD_WATCHLIST_MUTATION = gql`
@@ -59,13 +40,7 @@ function MediaCard(props) {
     }
   `;
 
-  const [
-    addToWatchlist,
-    {
-      // Variables need to be set to a different name, since default names have been used already
-      data: addData
-    }
-  ] = useMutation(ADD_WATCHLIST_MUTATION);
+  const [addToWatchlist] = useMutation(ADD_WATCHLIST_MUTATION);
 
   // Mutation to remove movie from the watchlist
   const REMOVE_WATCHLIST_MUTATION = gql`
@@ -77,8 +52,8 @@ function MediaCard(props) {
     }
   `;
 
-  const [removeFromWatchlist, { called }] = useMutation(
-    REMOVE_WATCHLIST_MUTATION
+  const [removeFromWatchlist] = useMutation(
+    REMOVE_WATCHLIST_MUTATION,
   );
 
   if (watchlist && watchlist.includes(props.id) && !isInWatchlist) {
@@ -86,9 +61,9 @@ function MediaCard(props) {
   }
 
   const onWatchlistAddClick = () => {
-    if (username) {
+    if (user) {
       addToWatchlist({
-        variables: { name: username, movieID: props.id }
+        variables: { name: user, movieID: props.id },
       });
       props.addToStore(props.id);
       setIsInWatchlist(true);
@@ -99,18 +74,18 @@ function MediaCard(props) {
 
   const onWatchlistRemoveClick = () => {
     removeFromWatchlist({
-      variables: { name: username, movieID: props.id }
+      variables: { name: user, movieID: props.id },
     });
     props.removeFromStore(props.id);
     setIsInWatchlist(false);
   };
 
-  if (isInWatchlist) {
+  if (isInWatchlist && user) {
     return (
       <CardActions className={classes.actions}>
-        <Tooltip title='Remove from watchlist'>
+        <Tooltip title="Remove from watchlist">
           <IconButton
-            aria-label='add to watchlist'
+            aria-label="add to watchlist"
             onClick={onWatchlistRemoveClick}
           >
             <HighlightOffIcon />
@@ -118,25 +93,22 @@ function MediaCard(props) {
         </Tooltip>
       </CardActions>
     );
-  } 
-    return (
-      <CardActions className={classes.actions}>
-        <Tooltip title='Add to watchlist'>
-          <IconButton
-            aria-label='add to watchlist'
-            onClick={onWatchlistAddClick}
-          >
-            <WatchLaterIcon />
-          </IconButton>
-        </Tooltip>
-      </CardActions>
-    );
-  
+  }
+  return (
+    <CardActions className={classes.actions}>
+      <Tooltip title="Add to watchlist">
+        <IconButton
+          aria-label="add to watchlist"
+          onClick={onWatchlistAddClick}
+        >
+          <WatchlistIcon />
+        </IconButton>
+      </Tooltip>
+    </CardActions>
+  );
 }
 
-// Empty because we don't need props here, but need the function in 'connect'
 const mapStateToProps = (state) => ({
-  currentId: state.currentCard,
   user: state.user,
   watchlist: state.watchlist,
 });

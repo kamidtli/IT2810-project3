@@ -1,10 +1,8 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { MockedProvider } from '@apollo/react-testing';
+import gql from 'graphql-tag';
 import PreviewCardList from '../components/CardList/PreviewCardList';
-import { ApolloProvider } from '@apollo/react-hooks';
-import Card from "../components/Card/Card";
-import gql from "graphql-tag";
 
 const SEARCH_QUERY = gql`
     {
@@ -93,10 +91,9 @@ const mocks = [
     },
   },
 ];
-describe("Preview Card List", ()=> {
+describe('Preview Card List', () => {
   it('renders without crashing', () => {
-    const cardList = shallow(<MockedProvider mocks={mocks}><PreviewCardList/></MockedProvider>);
+    const cardList = shallow(<MockedProvider mocks={mocks}><PreviewCardList /></MockedProvider>);
     expect(cardList.toJSON).toMatchSnapshot();
   });
 });
-

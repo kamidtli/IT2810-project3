@@ -41,31 +41,10 @@ const useStyles = makeStyles((theme) => ({
     maxwidth: 1000,
     marginTop: theme.spacing(6),
   },
-  viewAllButtonContainer: {
-    display: 'flex',
-    justifyContent: 'flex-end',
-    marginLeft: theme.spacing(2),
-    marginRight: theme.spacing(2),
-  },
   latestTitle: {
     margin: 0,
     padding: theme.spacing(2),
     paddingBottom: theme.spacing(0),
-  },
-  link: {
-    color: theme.palette.text.primary,
-    textDecoration: 'none',
-  },
-  gridContainer: {
-    width: '100%',
-    paddingRight: theme.spacing(2),
-    paddingLeft: theme.spacing(2),
-  },
-  genreButton: {
-    width: '80%',
-    marginTop: theme.spacing(2),
-    marginLeft: '10%',
-    marginRight: '10%',
   },
 }));
 
@@ -77,7 +56,9 @@ function Home(props, theme) {
       <ThemeProvider theme={theme}>
         <Box className={classes.searchAndGenreContainer}>
           <div className={classes.searchBox}>
-            <h1 className={classes.mainTitle}>Search for thousands of movies</h1>
+            <h1 className={classes.mainTitle}>
+              Search for thousands of movies
+            </h1>
             <SearchField />
           </div>
         </Box>
@@ -85,18 +66,14 @@ function Home(props, theme) {
           <h1 className={classes.latestTitle}>Latest releases</h1>
           <PreviewCardList />
         </Box>
-
       </ThemeProvider>
     </div>
   );
 }
-
-// Empty because we don't need props here, but need the function in 'connect'
-const mapStateToProps = () => ({});
 
 const mapDispatchToProps = (dispatch) => ({
   addSearch: (searchString) => dispatch({ type: 'NEW_SEARCH', searchString }),
   resetSearch: () => dispatch({ type: 'RESET_SEARCH' }),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(null, mapDispatchToProps)(Home);

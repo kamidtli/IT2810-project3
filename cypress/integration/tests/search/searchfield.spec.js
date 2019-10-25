@@ -7,7 +7,7 @@ describe('Search field homepage test', () => {
   it('Checks the content of the search page after search', () => {
     cy.get('.MuiGrid-container > :nth-child(1)').should('contain.text', 'Pirates of the Caribbean: The Curse of the Black Pearl');
     cy.get('.MuiGrid-container > :nth-child(7)').should('contain.text', 'Pirates of the Great Salt Lake');
-    cy.get('.MuiGrid-container').children().should('have.length', 7);
+    cy.get('.MuiGrid-container').children().should('have.length', 10);
   });
 });
 
@@ -21,6 +21,6 @@ describe('Search field header tests', () => {
     cy.get('.MuiGrid-container > :nth-child(1)').should('contain.text', 'The Dark Knight');
     cy.get('.MuiGrid-container > :nth-child(3)').should('contain.text', 'Interstellar');
     cy.get('.MuiGrid-container > :nth-child(9)').should('contain.text', 'Insomnia');
-    cy.get('.MuiGrid-container').children().should('have.length', 9);
+    cy.get('.MuiGrid-container').children().should('have.length', 12);
   });
 });

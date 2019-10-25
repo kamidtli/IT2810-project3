@@ -1,19 +1,14 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
-import Drawer from '@material-ui/core/Drawer';
-import Button from '@material-ui/core/Button';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
+import {
+  Drawer, Button, List, ListItem, ListItemText,
+} from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 
 const useStyles = makeStyles((theme) => ({
   list: {
     width: 250,
-  },
-  fullList: {
-    width: 'auto',
   },
   icon: {
     color: theme.palette.primary.contrastText,
@@ -41,12 +36,12 @@ export default function SideMenu() {
     setState({ ...state, [side]: open });
   };
 
-  const sideList = (side) => (
+  const sideList = () => (
     <div
       className={classes.list}
       role="presentation"
-      onClick={toggleDrawer(side, false)}
-      onKeyDown={toggleDrawer(side, false)}
+      onClick={toggleDrawer('left', false)}
+      onKeyDown={toggleDrawer('left', false)}
     >
       <List>
         <Link to="/" className={classes.link}>
@@ -73,7 +68,7 @@ export default function SideMenu() {
         open={state.left}
         onClose={toggleDrawer('left', false)}
       >
-        {sideList('left')}
+        {sideList()}
       </Drawer>
     </div>
   );

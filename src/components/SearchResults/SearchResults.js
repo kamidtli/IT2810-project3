@@ -23,6 +23,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+/**
+ * Component for querying and rendering
+ * child components with query data.
+ * Uses 'page' from props for pagination
+ * @param {*} props
+ */
+
 function SearchResults(props) {
   const classes = useStyles();
   const {

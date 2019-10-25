@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-// Card list for homepage which shows the 6 latest movies
+// Card list for homepage which shows some of the latest movies
 export default function PreviewCardList() {
   const classes = useStyles();
 

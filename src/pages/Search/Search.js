@@ -26,18 +26,6 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     color: theme.palette.secondary.main,
   },
-  filterAndSortBar: {
-    display: 'flex',
-    margin: theme.spacing(1),
-  },
-  topInfo: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: '100%',
-    maxWidth: 1000,
-    padding: theme.spacing(4),
-  },
   gridItem: {
     textAlign: 'center',
     margin: 'auto',
@@ -50,7 +38,7 @@ function SearchPage(props) {
   const [genreValue, setGenreValue] = useState(props.genre);
   const [yearRange, setYearRange] = useState(props.yearRange);
   const [ratingRange, setRatingRange] = useState(props.ratingRange);
-  const [sortValue, setSortValue] = useState(props.sortValue);
+  const [sortValue, setSortValue] = useState(props.sortValue || '-imdb');
   const { query, genre } = useParams();
 
   // Triggers only after the initial render
@@ -58,6 +46,7 @@ function SearchPage(props) {
     // Resets the search attributes to allow for url searching
     props.resetSearch();
     setVisitedPages([0]);
+    // eslint-disable-next-line
   }, []);
 
   // Increase lastPage to render a new set of results
@@ -71,10 +60,7 @@ function SearchPage(props) {
   };
 
   // Triggers when the body of the page hits the bottom
-  useBottomScrollListener(
-    handleOnDocumentBottom,
-    200,
-  );
+  useBottomScrollListener(handleOnDocumentBottom, 200);
 
   const onUpdate = (value) => {
     setSortValue(value);
@@ -105,12 +91,12 @@ function SearchPage(props) {
         justify="space-between"
       >
         <Grid item xs={12} sm={4} className={classes.gridItem}>
-          <div>Showing results for <b>{query || genre || 'latest releases'}</b></div>
+          <div>
+            Showing results for <b>{query || genre || 'latest releases'}</b>
+          </div>
         </Grid>
         <Grid item xs={12} sm={4} className={classes.gridItem}>
-          <SortFilter
-            onUpdate={onUpdate}
-          />
+          <SortFilter onUpdate={onUpdate} />
         </Grid>
         <Grid item xs={12} sm={4} className={classes.gridItem}>
           <Filters
@@ -120,10 +106,9 @@ function SearchPage(props) {
             initialRatingRange={ratingRange}
           />
         </Grid>
-        {/* </div> */}
       </Grid>
       <div className={classes.cardList}>
-        { visitedPages.map((page) => (
+        {visitedPages.map((page) => (
           <SearchResults
             key={page}
             page={page}
@@ -132,9 +117,8 @@ function SearchPage(props) {
             ratingRange={ratingRange}
             sortValue={sortValue}
           />
-        )) }
+        ))}
       </div>
-
     </div>
   );
 }
@@ -158,4 +142,7 @@ const mapDispatchToProps = (dispatch) => ({
   resetPages: () => dispatch({ type: 'RESET_PAGES' }),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchPage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(SearchPage);

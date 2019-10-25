@@ -6,12 +6,12 @@ const userSchema = new Schema({
   name: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
   },
   watchlist: {
     type: [Object], // List of movies
-    required: true
-  }
+    required: true,
+  },
 });
 
 module.exports = mongoose.model('User', userSchema);

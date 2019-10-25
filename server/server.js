@@ -2,14 +2,17 @@ const express = require('express');
 const graphqlHTTP = require('express-graphql');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const { graphql, buildSchema } = require('graphql');
-const schema = require('./schema/schemaV2');
+const schema = require('./schema/schema');
 
 // Express application
 const app = express();
 
 // Connects Mongoose to the MongoDB database
-mongoose.connect('mongodb://gruppe16:Hemmelig@it2810-16.idi.ntnu.no:27017/movies', { useNewUrlParser: true });
+mongoose.connect('mongodb://gruppe16:Hemmelig@it2810-16.idi.ntnu.no:27017/movies', {
+  useNewUrlParser: true,
+  useCreateIndex: true,
+  useUnifiedTopology: true,
+});
 mongoose.connection.once('open', () => {
   console.log('connected to database');
 });

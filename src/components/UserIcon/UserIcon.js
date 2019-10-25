@@ -1,8 +1,7 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import Avatar from '@material-ui/core/Avatar';
+import {
+  Button, Menu, MenuItem, Avatar,
+} from '@material-ui/core/';
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -16,14 +15,17 @@ function UserIcon(props) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
 
+  // Shows logout button when avatar is clicked
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const unFocus = (event) => {
+  // Hides logout button when avatar is blurred
+  const unFocus = () => {
     setAnchorEl(null);
   };
 
+  // Hides logout button and logs out user
   const handleClose = () => {
     setAnchorEl(null);
     props.clearWatchlist();

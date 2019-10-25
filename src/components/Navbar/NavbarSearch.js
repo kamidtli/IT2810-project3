@@ -50,6 +50,8 @@ function NavbarSearch(props) {
   const classes = useStyles();
   const history = useHistory();
 
+  // redirects to search page with the correct search query
+  // and resets the search and filters in the redux store
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
       event.target.blur();
@@ -78,12 +80,9 @@ function NavbarSearch(props) {
   );
 }
 
-// Empty because we don't need props here, but need the function in 'connect'
-const mapStateToProps = (state) => ({});
-
 const mapDispatchToProps = (dispatch) => ({
   addSearch: (searchString) => dispatch({ type: 'NEW_SEARCH', searchString }),
   resetSearch: () => dispatch({ type: 'RESET_SEARCH' }),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(NavbarSearch);
+export default connect(null, mapDispatchToProps)(NavbarSearch);

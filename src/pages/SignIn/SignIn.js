@@ -1,43 +1,45 @@
 import React, { useState } from 'react';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
 import { connect } from 'react-redux';
-import { useLazyQuery, useMutation } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
 import { Redirect } from 'react-router-dom';
+import gql from 'graphql-tag';
+import { useLazyQuery, useMutation } from '@apollo/react-hooks';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import {
+  makeStyles,
+  CssBaseline,
+  Avatar,
+  Button,
+  TextField,
+  Typography,
+  Container,
+} from '@material-ui/core/';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   '@global': {
     body: {
-      backgroundColor: theme.palette.common.white
-    }
+      backgroundColor: theme.palette.common.white,
+    },
   },
   paper: {
     marginTop: theme.spacing(8),
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main
+    backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1)
+    width: '100%',
+    marginTop: theme.spacing(1),
   },
   submit: {
-    margin: theme.spacing(3, 0, 2)
+    margin: theme.spacing(3, 0, 2),
   },
   mainContainer: {
-    marginTop: theme.spacing(15)
-  }
+    marginTop: theme.spacing(15),
+  },
 }));
 
 function SignIn(props) {
@@ -67,7 +69,8 @@ function SignIn(props) {
     }
   `;
 
-  const [getDelayedUser, { data, loading, error }] = useLazyQuery(USER_QUERY); // A query that has to be called manually with getDelayedUser()
+  // A query that has to be called manually with getDelayedUser()
+  const [getDelayedUser, { data, loading, error }] = useLazyQuery(USER_QUERY);
   const [
     createUser,
     {
@@ -75,12 +78,24 @@ function SignIn(props) {
       data: mutationData,
       loading: mutationLoading,
       error: mutationError,
-      called
-    }
+      called,
+    },
   ] = useMutation(USER_MUTATION); // Mutation can be called manually with createUser()
 
+  // Used to temporarily save the text from the textfield
+  const onTextChange = (event) => {
+    setUsername(event.target.value);
+  };
+
+  // Query database to see if a user with the chosen username exist
+  const handleSignIn = (name) => {
+    getDelayedUser({
+      variables: { name },
+    });
+  };
+
   // If 'enter' is pressed user should try to log in
-  const handleKeyDown = event => {
+  const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
       event.preventDefault();
       event.target.blur();
@@ -88,76 +103,63 @@ function SignIn(props) {
     }
   };
 
-  // Used to temporarily save the text from the textfield
-  const onTextChange = event => {
-    setUsername(event.target.value);
-  };
-
   // If button is pressed, user should try to log in
-  const handleSubmit = event => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     event.target.blur();
     handleSignIn(username);
   };
 
-  // Query database to see if a user with the chosen username exist
-  const handleSignIn = username => {
-    getDelayedUser({
-      variables: { name: username }
-    });
-  };
-
-  if (loading) return <p>LOADING</p>;
-  if (error) return <p>{error.message}</p>;
-  if (mutationLoading) return <p>LOADING</p>;
-  if (mutationError) return <p>{mutationError.message}</p>;
+  if (loading || mutationLoading) return <p>LOADING</p>;
+  if (error || mutationError) return <p>{error.message}</p>;
 
   if (data && data.getUser) {
     // If a user with the chosen username already exist, redirect to front page
     props.loginUser(data.getUser.name); // Store logged in user in the redux store
-    props.createWatchlist(data.getUser.watchlist.map(movie => movie._id));
-    return <Redirect push to={`/`} />;
-  } else if (data && !data.getUser && !called && username) {
+    props.createWatchlist(data.getUser.watchlist.map((movie) => movie._id)); // Save the logged in user's watchlist from the database in the redux store
+    return <Redirect push to="/" />;
+  }
+  if (data && !data.getUser && !called && username) {
     // If a user with the chosen username doesn't exist, the user has to be created
     createUser({
-      variables: { name: username }
+      variables: { name: username },
     });
   } else if (mutationData && mutationData.addUser) {
     // If a new user has been created, redirect to front page
     props.loginUser(mutationData.addUser.name); // Store logged in user in the redux store
-    props.createWatchlist([]);
-    return <Redirect push to={`/`} />;
+    props.createWatchlist([]); // A new user has no watchlist stored in the database. Create empty watchlist
+    return <Redirect push to="/" />;
   }
 
   return (
-    <Container className={classes.mainContainer} component='main' maxWidth='xs'>
+    <Container className={classes.mainContainer} component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
-        <Typography component='h1' variant='h5'>
+        <Typography component="h1" variant="h5">
           Sign in
         </Typography>
         <form className={classes.form} noValidate onSubmit={handleSubmit}>
           <TextField
-            variant='outlined'
-            margin='normal'
+            variant="outlined"
+            margin="normal"
             required
             fullWidth
-            id='username'
-            label='Username'
-            name='username'
-            autoComplete='username'
+            id="username"
+            label="Username"
+            name="username"
+            autoComplete="username"
             autoFocus
             onKeyDown={handleKeyDown}
             onChange={onTextChange}
           />
           <Button
-            type='submit'
+            type="submit"
             fullWidth
-            variant='contained'
-            color='primary'
+            variant="contained"
+            color="primary"
             className={classes.submit}
           >
             Sign In
@@ -168,15 +170,9 @@ function SignIn(props) {
   );
 }
 
-// Empty because we don't need props here, but need the function in 'connect'
-const mapStateToProps = state => ({});
-
-const mapDispatchToProps = dispatch => ({
-  loginUser: username => dispatch({ type: 'LOGIN_USER', username }), // Store logged in user in the redux store
-  createWatchlist: movies => dispatch({ type: 'CREATE_WATCHLIST', movies })
+const mapDispatchToProps = (dispatch) => ({
+  loginUser: (username) => dispatch({ type: 'LOGIN_USER', username }), // Store logged in user in the redux store
+  createWatchlist: (movies) => dispatch({ type: 'CREATE_WATCHLIST', movies }), // Store user's watchlist from the database in the redux store
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SignIn);
+export default connect(null, mapDispatchToProps)(SignIn);
