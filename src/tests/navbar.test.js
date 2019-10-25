@@ -6,7 +6,11 @@ import theme from '../theme';
 
 describe('Navbar component', () => {
   it('renders without crashing', () => {
-    const wrapper = shallow(<ThemeProvider theme={theme}><NavBar /></ThemeProvider>);
+    const wrapper = shallow(
+      <ThemeProvider theme={theme}>
+        <NavBar />
+      </ThemeProvider>
+    );
     expect(wrapper.toJSON).toMatchSnapshot();
   });
 });

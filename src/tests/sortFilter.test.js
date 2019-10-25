@@ -6,7 +6,11 @@ import theme from '../theme';
 
 describe('Sort Filter component', () => {
   it('renders without crashing', () => {
-    const wrapper = shallow(<ThemeProvider theme={theme}><SortFilter /></ThemeProvider>);
+    const wrapper = shallow(
+      <ThemeProvider theme={theme}>
+        <SortFilter />
+      </ThemeProvider>
+    );
     expect(wrapper.toJSON).toMatchSnapshot();
   });
 });

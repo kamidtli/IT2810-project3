@@ -1,5 +1,4 @@
 import React from 'react';
-//import renderer from 'react-test-renderer';
 import reducer from '../reducers';
 
 describe('Reducer', () => {
@@ -7,7 +6,7 @@ describe('Reducer', () => {
     const state = { username: null };
     const newState = reducer(state, {
       type: 'LOGIN_USER',
-      username: 'loginPerson',
+      username: 'loginPerson'
     });
     expect(newState.user).toMatch('loginPerson');
   });
@@ -15,7 +14,7 @@ describe('Reducer', () => {
   it('should logout a user', () => {
     const state = { username: 'logoutPerson' };
     const newState = reducer(state, {
-      type: 'LOG_OUT',
+      type: 'LOG_OUT'
     });
     expect(newState.user).toBeNull();
   });
@@ -24,13 +23,13 @@ describe('Reducer', () => {
     const state = { watchlist: null };
     const newState = reducer(state, {
       type: 'CREATE_WATCHLIST',
-      movies: [],
+      movies: []
     });
     expect(newState.watchlist.length).toBe(0);
   });
 
   it('should create a watchlist with movieIDs', () => {
-    const movies = ['movieID1', 'movieID2', 'movieID3']
+    const movies = ['movieID1', 'movieID2', 'movieID3'];
     const state = { watchlist: null };
     const newState = reducer(state, {
       type: 'CREATE_WATCHLIST',
@@ -40,7 +39,7 @@ describe('Reducer', () => {
   });
 
   it('should add a movie to watchlist', () => {
-    const movies = ['movieID1', 'movieID2', 'movieID3']
+    const movies = ['movieID1', 'movieID2', 'movieID3'];
     const state = { watchlist: movies };
     const newState = reducer(state, {
       type: 'ADD_TO_WATCHLIST',
@@ -50,7 +49,7 @@ describe('Reducer', () => {
   });
 
   it('should remove a movie from watchlist', () => {
-    const movies = ['movieID1', 'movieID2', 'movieID3']
+    const movies = ['movieID1', 'movieID2', 'movieID3'];
     const state = { watchlist: movies };
     const newState = reducer(state, {
       type: 'REMOVE_FROM_WATCHLIST',
@@ -60,10 +59,10 @@ describe('Reducer', () => {
   });
 
   it('should clear watchlist', () => {
-    const movies = ['movieID1', 'movieID2', 'movieID3']
+    const movies = ['movieID1', 'movieID2', 'movieID3'];
     const state = { watchlist: movies };
     const newState = reducer(state, {
-      type: 'CLEAR_WATCHLIST',
+      type: 'CLEAR_WATCHLIST'
     });
     expect(newState.watchlist).toBeNull();
   });
@@ -89,5 +88,4 @@ describe('Reducer', () => {
     });
     expect(newState.search.length).toBe(3);
   });
-
 });

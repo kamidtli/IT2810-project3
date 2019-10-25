@@ -6,7 +6,11 @@ import theme from '../theme';
 
 describe('Searchfield component', () => {
   it('renders without crashing', () => {
-    const wrapper = shallow(<ThemeProvider theme={theme}><SearchField /></ThemeProvider>);
+    const wrapper = shallow(
+      <ThemeProvider theme={theme}>
+        <SearchField />
+      </ThemeProvider>
+    );
     expect(wrapper.toJSON).toMatchSnapshot();
   });
 });

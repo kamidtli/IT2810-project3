@@ -6,7 +6,11 @@ import theme from '../theme';
 
 describe('Side Menu component', () => {
   it('renders without crashing', () => {
-    const wrapper = shallow(<ThemeProvider theme={theme}><SideMenu /></ThemeProvider>);
+    const wrapper = shallow(
+      <ThemeProvider theme={theme}>
+        <SideMenu />
+      </ThemeProvider>
+    );
     expect(wrapper.toJSON).toMatchSnapshot();
   });
 });
