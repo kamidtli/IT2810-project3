@@ -1,8 +1,6 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
+import { makeStyles } from '@material-ui/styles';
+import { MenuItem, FormControl, Select } from '@material-ui/core/';
 import { connect } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
@@ -24,12 +22,13 @@ function SimpleSelect(props) {
     if (newValue === '') {
       newValue = '-imdb';
     }
+    // Set values in state
     setValues((oldValues) => ({
       ...oldValues,
       [event.target.name]: event.target.value,
     }));
-    props.updateSortFilter(newValue);
-    props.onUpdate(newValue);
+    props.updateSortFilter(newValue); // Update sort value in redux store
+    props.onUpdate(newValue); // Runs the callback function to update sort value
   };
 
   return (

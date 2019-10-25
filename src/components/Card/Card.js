@@ -1,12 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Typography from '@material-ui/core/Typography';
+import {
+  Card, CardActionArea, CardActions, CardContent, CardMedia, Typography,
+} from '@material-ui/core/';
 import Star from '@material-ui/icons/Stars';
 import { Link } from 'react-router-dom';
 import WatchlistButton from '../WatchlistButton/WatchlistButton';
@@ -20,10 +17,6 @@ const useStyles = makeStyles((theme) => ({
   },
   media: {
     height: 150,
-  },
-  content: {
-    textOverflow: 'ellipsis',
-    marginBottom: '35px',
   },
   actions: {
     justifyContent: 'flex-end',
@@ -47,9 +40,7 @@ const useStyles = makeStyles((theme) => ({
 /**
  * Card component for showing a movie card
  * @param {*} props
- * Props is a JSON object it gets from
- * GraphQL with data about
- * id, title, link, imgUrl, short description
+ * Props is data it gets from the Redux store
  */
 
 function MediaCard(props) {

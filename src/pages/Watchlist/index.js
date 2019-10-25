@@ -3,10 +3,8 @@ import { connect } from 'react-redux';
 import gql from 'graphql-tag';
 import { useQuery } from '@apollo/react-hooks';
 import { makeStyles } from '@material-ui/styles';
-import IconButton from '@material-ui/core/IconButton';
+import { IconButton, CardActions, Tooltip } from '@material-ui/core/';
 import ReplayIcon from '@material-ui/icons/Replay';
-import CardActions from '@material-ui/core/CardActions';
-import Tooltip from '@material-ui/core/Tooltip';
 import MovieList from './MovieList';
 
 const useStyles = makeStyles((theme) => ({
@@ -29,29 +27,14 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
     paddingBottom: theme.spacing(0),
   },
-  card: {
-    maxWidth: 345,
-  },
-  media: {
-    height: 140,
-  },
   actions: {
     justifyContent: 'flex-end',
-  },
-  link: {
-    color: theme.palette.text.primary,
-    textDecoration: 'none',
   },
 }));
 
 function Watchlist(props) {
   const classes = useStyles();
   const username = props.user;
-
-  const handleRefreshSite = () => {
-    refetch();
-  };
-
 
   const WATCHLIST_QUERY = gql`
     {
@@ -83,8 +66,12 @@ function Watchlist(props) {
     window.location.reload();
   }
 
-  console.log(data);
+  const handleRefreshSite = () => {
+    refetch();
+  };
 
+  // The ternery in the return statement checks whether a user is logged in,
+  // the watchlist is empty or if the watchlist should be shown
   return (
     <div className={classes.root}>
       <div className={classes.cardList}>

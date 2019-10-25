@@ -1,14 +1,10 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
-import Slider from '@material-ui/core/Slider';
+import {
+  Drawer, Button, Grid, Slider,
+} from '@material-ui/core/';
 
 const useStyles = makeStyles((theme) => ({
-  list: {
-    width: 250,
-  },
   fullList: {
     width: 'auto',
   },
@@ -24,9 +20,6 @@ const useStyles = makeStyles((theme) => ({
   genreButton: {
     width: '100%',
   },
-  listStyling: {
-    listStyle: 'none',
-  },
   slider: {
     width: '70%',
   },
@@ -41,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function TemporaryDrawer({
-  filterValue, updateFilterBar, genre, initialYearRange, initialRatingRange,
+  updateFilterBar, genre, initialYearRange, initialRatingRange,
 }) {
   const classes = useStyles();
   const [yearRange, setYearRange] = useState(initialYearRange);
@@ -52,20 +45,24 @@ export default function TemporaryDrawer({
     top: false,
   });
 
+  // Runs the callback function to update redux store
   const updateFilters = (genre, yearRangeValue, ratingRangeValue) => {
     updateFilterBar(genre, yearRangeValue, ratingRangeValue);
   };
 
+  // Updates year in state and redux store
   const handleChangeYear = (event, newValue) => {
     updateFilters(genreValue, newValue, ratingRange);
     setYearRange(newValue);
   };
 
+  // Updates rating in state and redux store
   const handleChangeRating = (event, newValue) => {
     updateFilters(genreValue, yearRange, newValue);
     setRatingRange(newValue);
   };
 
+  // Updates genre in state and redux store
   const handleChangeGenre = (newGenre) => {
     updateFilters(newGenre, yearRange, ratingRange);
     setGenreValue(newGenre);
@@ -79,7 +76,7 @@ export default function TemporaryDrawer({
     setState({ ...state, [side]: open });
   };
 
-  const fullList = (side) => (
+  const fullList = () => (
     <div
       className={classes.fullList}
       role="presentation"
@@ -89,7 +86,7 @@ export default function TemporaryDrawer({
         <div className={classes.slider}>
           <Slider
             value={yearRange}
-            min={1980}
+            min={1893}
             max={2019}
             valueLabelDisplay="on"
             onChange={handleChangeYear}
@@ -144,7 +141,7 @@ export default function TemporaryDrawer({
     <div>
       <Button variant="outlined" color="primary" onClick={toggleDrawer('top', true)}>Filters</Button>
       <Drawer anchor="top" open={state.top} onClose={toggleDrawer('top', false)}>
-        {fullList('top')}
+        {fullList()}
       </Drawer>
     </div>
   );

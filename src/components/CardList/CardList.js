@@ -11,26 +11,13 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
     maxWidth: 1000,
-    color: theme.palette.secondary.main,
+    color: theme.palette.text.primary,
   },
   gridItem: {
     display: 'flex',
     justifyContent: 'center',
     padding: theme.spacing(2),
     minWidth: '320px',
-  },
-  button: {
-    margin: theme.spacing(1),
-  },
-  noResults: {
-    height: '500px',
-    paddingTop: theme.spacing(10),
-    display: 'flex',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-  },
-  button: {
-    margin: theme.spacing(1),
   },
   noResults: {
     height: '500px',
@@ -44,9 +31,7 @@ const useStyles = makeStyles((theme) => ({
 /**
  * Card list for showing multiple cards
  * @param {*} props
- * Props is a JSON object it gets from
- * GraphQL with data about
- * id, title, link, imgUrl, short description
+ * Props is data it gets from the Redux store
  */
 
 function CardList(props) {
@@ -55,6 +40,8 @@ function CardList(props) {
 
   let mdWidth = 6;
   let lgWidth = 4;
+
+  // Changes width if this component is to show only a single card
   if (data.length === 1) {
     mdWidth = 12;
     lgWidth = 12;

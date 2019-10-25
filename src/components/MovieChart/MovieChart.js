@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../node_modules/react-vis/dist/style.css';
+import '../../../node_modules/react-vis/dist/style.css';
 import {
   XYPlot,
   VerticalBarSeries,
@@ -11,7 +11,7 @@ import {
 import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 
-function MovieChart({ id, imdbRating, year }) {
+function MovieChart({ imdbRating, year }) {
   const CHART_QUERY = gql`
   {
     findImdbRatingPerYear (year: ${year}) {

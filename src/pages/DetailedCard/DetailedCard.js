@@ -1,11 +1,9 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { makeStyles } from '@material-ui/styles';
-import { connect } from 'react-redux';
 import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
-import { Typography } from '@material-ui/core';
-import MovieChart from '../../components/MovieChart';
+import MovieChart from '../../components/MovieChart/MovieChart';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -59,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function DetailedCard(props) {
+function DetailedCard() {
   const classes = useStyles();
   const { id } = useParams();
   const defaultPoster = 'https://images.unsplash.com/photo-1485846234645-a62644f84728?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1340&q=80';
@@ -100,6 +98,7 @@ function DetailedCard(props) {
           <div className={classes.infoElements}>
             <h4 className={classes.infoElement}>{data.movie.year}</h4>
             {data.movie.genres ? <h4 className={classes.infoElement}>{data.movie.genres[0]}</h4> : <div />}
+            {data.movie.imdb.rating ? <h4 className={classes.infoElement}>IMDb rating: {data.movie.imdb.rating}</h4> : <div />}
             {data.movie.directors.map((director, index) => (
               <h4
                 key={data.movie._id.concat(`:${index}`)}
@@ -126,12 +125,4 @@ function DetailedCard(props) {
   );
 }
 
-const mapStateToProps = (state) => ({
-  selectedItem: state.currentCard,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  addPage: (page) => dispatch({ type: 'NEW_PAGE', page }),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(DetailedCard);
+export default DetailedCard;
