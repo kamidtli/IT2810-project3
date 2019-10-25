@@ -1,12 +1,36 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import { compose, createStore } from 'redux';
 import './index.css';
+import { ApolloClient } from 'apollo-client';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import { HttpLink } from 'apollo-link-http';
+import { ApolloProvider } from '@apollo/react-hooks';
+import persistState from 'redux-sessionstorage';
 import App from './App';
-import * as serviceWorker from './serviceWorker';
+import rootReducer from './reducers';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+const cache = new InMemoryCache();
+const link = new HttpLink({
+  uri: 'http://it2810-16.idi.ntnu.no:4000/graphql',
+});
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+const client = new ApolloClient({
+  cache,
+  link,
+});
+
+const createPersistentStore = compose(
+  persistState(),
+)(createStore);
+
+const store = createPersistentStore(rootReducer);
+
+ReactDOM.render(
+  <Provider store={store}>
+    <ApolloProvider client={client}>
+      <App />
+    </ApolloProvider>
+  </Provider>, document.getElementById('root'),
+);
