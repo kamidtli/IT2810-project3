@@ -12,6 +12,29 @@ The project can be found [here](http://it2810-16.idi.ntnu.no/prosjekt3/)
 
 ## Installation
 
+To set up this project and run this website, first clone the project using
+
+`git clone https://gitlab.stud.idi.ntnu.no/IT2810-H19/teams/team-16/project2.git`
+
+Then install all the necessary node modules using
+
+`npm install`
+
+Then you need to run the server, so the website can get the data from the backend.
+Run the server using
+
+`node server/server.js`
+
+Finally you can run the website using
+
+`npm start`
+
+## Code style
+
+We have chosen to follow the ESLint code style in this project to keep a consistent
+code style. All members of the group uses a linter on the IDE, which fixes the linting
+for us. We use the Airbnb eslint code style.
+
 # Functionality
 
 IMDbest is a website for finding movies. The website has a large database of movies from many different directors and genres. On IMDbest you can search for movies based on title or director. You can also find movies based on genre. On the homepage, you have easy access to the search field and see the latest released movies. You can also make your own user and save the movies you might want watch in the future.
@@ -113,13 +136,12 @@ For testing we have chosen to use Cypress for end-to-end testing and Jest and En
 
 #### Cypress
 
-To run the Cypress test write `npm run cypress:run`. 
+To run the Cypress test write `npm run cypress:run`.
 Cypress is a JavaScript framework for end-to-end testing, which makes it easier to test user interactions. Cypress have a graphical user interface which makes it easy to see whats being tested. With Cypress you can simulate how a user will interact with the page, and check if all the components are working properly and that the redirect between pages are loading correct. Cypress can also test if the data is loading properly and that the backend is
 working.
 
-All cypress test are working properly 
+All cypress test are working properly
 ![Alt text](assets/images/cypress_tests.jpg)
-
 
 To run the Cypress test write `npm run cypress:run`.
 To open the graphical interface of Cypress write `npm run cypress`
