@@ -50,6 +50,12 @@ Searchpage
 Watchlist
 ![Homepage](assets/images/Watchlist.JPG)
 
+### Advanced visualization
+For each movie we generate a graph showing the movie's IMDb rating against all other movies from the same year.
+
+![Rating graph](assets/images/Graph.JPG)
+
+
 ### React
 
 In this project, we are using React as frontend in combination with Redux as the
