@@ -80,7 +80,7 @@ By storing this information in the redux store we can keep the filter values con
 
 ## Backend
 
-###API
+### API
 
 ### MongoDB
 
@@ -189,14 +189,29 @@ it easy to check that no code have changed unintended. Enzyme is also test frame
 
 To run the test in Jest run the command `npm test`
 
-We are mostly using snapshots test for unit testing in this project. Here
-is what one of the test look like.
+Here is what one of the snapshottests look like.
 
 ```React JSX
 describe('Card List', () => {
   it('renders without crashing', () => {
     const cardList = shallow(<MockedProvider mocks={mocks}><CardList /></MockedProvider>);
     expect(cardList.toJSON).toMatchSnapshot();
+  });
+});
+
+```
+
+The redux store is tested by unit tests. Below is an example of a unit test.
+
+```React JSX
+describe('Reducer', () => {
+  it('should login a user', () => {
+    const state = { username: null };
+    const newState = reducer(state, {
+      type: 'LOGIN_USER',
+      username: 'loginPerson'
+    });
+    expect(newState.user).toMatch('loginPerson');
   });
 });
 
