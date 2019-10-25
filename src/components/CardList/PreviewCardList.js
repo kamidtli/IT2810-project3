@@ -51,7 +51,7 @@ export default function PreviewCardList() {
 
   const renderData = (toRender) => (
     toRender.map((movie) => (
-      <Grid item xs={12} md={6} lg={4} key={movie._id} className={classes.gridItem}>
+      <Grid item xs={12} md={6} lg={4} id={movie._id} key={movie._id} className={classes.gridItem}>
         <Card
           title={movie.title}
           shortDescription={movie.plot}

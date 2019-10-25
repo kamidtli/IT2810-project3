@@ -83,6 +83,7 @@ function Watchlist(props) {
             <CardActions className={classes.actions}>
               <Tooltip title="Refresh watchlist">
                 <IconButton
+                    id={"refreshbutton"}
                   aria-label="refresh watchlist"
                   onClick={handleRefreshSite}
                 >

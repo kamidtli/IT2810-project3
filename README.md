@@ -114,6 +114,11 @@ makes it easy to see whats being tested. With Cypress you can simulate how a use
 working properly and that the redirect between pages are loading correct. Cypress can also test if the data are loading properly and that the backend are
 working. 
 
+All cypress test are working properly 
+![Alt text](assets/images/cypress_tests.jpg)
+
+PS: There can be some errors
+
 To run the Cypress test write `npm run cypress:run`. 
 To open the graphical interface of Cypress write `npm run cypress`
 

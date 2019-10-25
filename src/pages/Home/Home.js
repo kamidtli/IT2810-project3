@@ -56,14 +56,14 @@ function Home(props, theme) {
       <ThemeProvider theme={theme}>
         <Box className={classes.searchAndGenreContainer}>
           <div className={classes.searchBox}>
-            <h1 className={classes.mainTitle}>
+            <h1 className={classes.mainTitle} id="HomepageTitle">
               Search for thousands of movies
             </h1>
             <SearchField />
           </div>
         </Box>
         <Box className={classes.contentBox}>
-          <h1 className={classes.latestTitle}>Latest releases</h1>
+          <h1 className={classes.latestTitle} id={"subtitle"}>Latest releases</h1>
           <PreviewCardList />
         </Box>
       </ThemeProvider>

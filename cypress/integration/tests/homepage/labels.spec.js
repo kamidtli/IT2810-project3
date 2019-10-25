@@ -1,9 +1,9 @@
 describe('Homepage tests', () => {
   it('Check if labels have right text', () => {
     cy.visit('/');
-    cy.get('.makeStyles-mainTitle-126').should('contain.text', 'Search for thousands of movies');
-    cy.get('.makeStyles-latestTitle-131').should('contain.text', 'Latest release');
-    cy.get('.MuiGrid-container-216 > :nth-child(1)').should('contain.text', 'The Treasure');
-    cy.get('.MuiGrid-container-216 > :nth-child(9)').should('contain.text', 'Mountains May Depart');
+    cy.get('#HomepageTitle').should('contain.text', 'Search for thousands of movies');
+    cy.get('#subtitle').should('contain.text', 'Latest release');
+    cy.get('#\\35 73a13f8f29313caabde8d7a').should('contain.text', 'The Treasure');
+    cy.get('#\\35 73a13f0f29313caabdda7ac').should('contain.text', 'Mountains May Depart');
   });
 });

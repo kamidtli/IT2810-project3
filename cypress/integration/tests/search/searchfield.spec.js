@@ -14,7 +14,7 @@ describe('Search field homepage test', () => {
 describe('Search field header tests', () => {
   it('Test the redirect of the search field in the header', () => {
     cy.visit('/');
-    cy.get('.makeStyles-search-101 > .MuiInputBase-root > .MuiInputBase-input').type('nolan{enter}');
+    cy.get('.MuiInputBase-input').type('nolan{enter}');
     cy.url().should('eq', 'http://localhost:3000/search/nolan');
   });
   it('Checks the content of the search page after search', () => {

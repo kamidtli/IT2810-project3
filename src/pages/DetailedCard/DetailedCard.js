@@ -94,11 +94,11 @@ function DetailedCard() {
       </div>
       <div className={classes.textContainer}>
         <div className={classes.infoText}>
-          <h1 className={classes.title}>{data.movie.title}</h1>
+          <h1 className={classes.title} id={`${data.movie._id}-title`}>{data.movie.title}</h1>
           <div className={classes.infoElements}>
             <h4 className={classes.infoElement}>{data.movie.year}</h4>
             {data.movie.genres ? <h4 className={classes.infoElement}>{data.movie.genres[0]}</h4> : <div />}
-            {data.movie.imdb.rating ? <h4 className={classes.infoElement}>IMDb rating: {data.movie.imdb.rating}</h4> : <div />}
+            {data.movie.imdb.rating ? <h4 className={classes.infoElement} id={`${data.movie._id}-rating`}>IMDb rating: {data.movie.imdb.rating}</h4> : <div />}
             {data.movie.directors.map((director, index) => (
               <h4
                 key={data.movie._id.concat(`:${index}`)}

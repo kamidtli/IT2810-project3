@@ -82,7 +82,7 @@ function MediaCard(props) {
 
   if (isInWatchlist && user) {
     return (
-      <CardActions className={classes.actions}>
+      <CardActions className={classes.actions} id={`${props.id}-watchlist-rm`}>
         <Tooltip title="Remove from watchlist">
           <IconButton
             aria-label="add to watchlist"
@@ -95,7 +95,7 @@ function MediaCard(props) {
     );
   }
   return (
-    <CardActions className={classes.actions}>
+      <CardActions className={classes.actions} id={`${props.id}-watchlist`}>
       <Tooltip title="Add to watchlist">
         <IconButton
           aria-label="add to watchlist"
