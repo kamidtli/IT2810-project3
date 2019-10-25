@@ -1,5 +1,6 @@
 const { makeExecutableSchema } = require('graphql-tools');
 const Movie = require('../models/movies');
+const User = require('../models/user');
 
 // GraphQL type definitions
 const typeDefs = `
@@ -29,6 +30,13 @@ const typeDefs = `
       x: Float
       y: Int
     }
+
+    type User {
+      _id: ID
+      name: String
+      watchlist: [Movie]
+    }
+    
     
     type Query {
       allMovies(sort: String, pagination: Int):[Movie]
@@ -41,6 +49,14 @@ const typeDefs = `
       findMoviesBasedOnYearRange(min: Int, max: Int, pagination: Int, skip: Int, sort: String): [Movie]
       filterMovies(searchValue: String, genre: String, yearRange:[Int], ratingRange: [Int], pagination: Int, skip: Int, sort: String): [Movie]
       findImdbRatingPerYear(year:Int): [ChartItem]
+      isInWatchlist(name: String, movieID: ID): Boolean
+      getUser(name:String): User
+    }
+
+    type Mutation {
+      addUser(name: String): User
+      addToWatchlist(name: String, movieID: ID): User
+      removeFromWatchlist(name: String, movieID: ID): User
     }
 `;
 
@@ -133,6 +149,38 @@ const resolvers = {
         .sort((movie1, movie2) => (movie1.x > movie2.x ? 1 : -1)),
       (error) => console.log(error),
     ),
+    getUser: async (root, { name }) => await User.findOne({ name }),
+    isInWatchlist: async (root, { name, movieID }) => await User.findOne({ name }).then((data) => data.watchlist.some((movie) => movie._id == movieID)),
+  },
+  Mutation: {
+    addUser: async (root, { name }, context, info) => {
+      const user = await User.create({
+        name,
+        watchlist: [],
+      });
+      await user.save();
+      return user;
+    },
+    addToWatchlist: async (root, { name, movieID }, context, info) => {
+      const user = await User.findOne({ name });
+      await User.updateOne(
+        { name },
+        { $addToSet: { watchlist: await Movie.findById(movieID) } },
+        { new: true },
+      );
+      user.save();
+      return user;
+    },
+    removeFromWatchlist: async (root, { name, movieID }, context, info) => {
+      const user = await User.findOne({ name });
+      await User.updateOne(
+        { name },
+        { $pull: { watchlist: await Movie.findById(movieID) } },
+        { new: true },
+      );
+      user.save();
+      return user;
+    },
   },
 };
 

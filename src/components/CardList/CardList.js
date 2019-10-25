@@ -29,12 +29,22 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
   },
+  button: {
+    margin: theme.spacing(1),
+  },
+  noResults: {
+    height: '500px',
+    paddingTop: theme.spacing(10),
+    display: 'flex',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+  },
 }));
 
 /**
  * Card list for showing multiple cards
- * @param {*} props 
- * Props is a JSON object it gets from 
+ * @param {*} props
+ * Props is a JSON object it gets from
  * GraphQL with data about
  * id, title, link, imgUrl, short description
  */

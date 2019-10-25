@@ -32,7 +32,7 @@ function SearchResults(props) {
     ratingRange,
     sortValue,
   } = props;
-  const { query, genre } = useParams();
+  const { query } = useParams();
 
   const SEARCH_QUERY = gql`
   {
@@ -42,26 +42,6 @@ function SearchResults(props) {
       yearRange: [${yearRange[0]},${yearRange[1]}],
       ratingRange: [${ratingRange[0]},${ratingRange[1]}],
       sort: "${sortValue}", pagination: 12, skip: ${page * 12} ) {
-        _id
-        title
-        plot
-        poster
-        imdb {
-          rating
-        }
-    }
-  }
-  `;
-
-  const GENRE_QUERY = gql`
-  {
-    findMoviesBasedOnGenre ( 
-      genre: "${genre}",
-      yearRange: [${yearRange[0]},${yearRange[1]}],
-      ratingRange: [${ratingRange[0]},${ratingRange[1]}],
-      sort: "${sortValue}",
-      pagination: 12, 
-      skip: ${page * 12}) {
         _id
         title
         plot
@@ -90,8 +70,6 @@ function SearchResults(props) {
   let QUERY = DEFAULT_QUERY;
   if (query) {
     QUERY = SEARCH_QUERY;
-  } else if (genre) {
-    QUERY = GENRE_QUERY;
   }
 
   const {
@@ -101,7 +79,7 @@ function SearchResults(props) {
   if (loading) return <p>LOADING</p>;
   if (error) return <p>{error.message}</p>;
 
-  const results = genre ? data.findMoviesBasedOnGenre : data.filterMovies;
+  const results = query ? data.filterMovies : data.findMoviesBasedOnYearRange;
 
   return (
     <div className={classes.root}>
