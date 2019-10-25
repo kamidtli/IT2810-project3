@@ -13,7 +13,7 @@ import rootReducer from './reducers';
 
 const cache = new InMemoryCache();
 const link = new HttpLink({
-  uri: 'http://localhost:4000/graphql',
+  uri: 'http://it2810-16.idi.ntnu.no:4000/graphql',
 });
 
 const client = new ApolloClient({
