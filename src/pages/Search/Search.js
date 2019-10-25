@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import { useBottomScrollListener } from 'react-bottom-scroll-listener';
 import { makeStyles } from '@material-ui/styles';
 import Grid from '@material-ui/core/Grid';
 import SearchResults from '../../components/SearchResults/SearchResults';
 import SortFilter from '../../components/SortFilter/SortFilter';
 import Filters from '../../components/FilterBar/Filters';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,23 +40,28 @@ function SearchPage(props) {
   const [yearRange, setYearRange] = useState(props.yearRange);
   const [ratingRange, setRatingRange] = useState(props.ratingRange);
   const [sortValue, setSortValue] = useState(props.sortValue || '-imdb');
-  const { query, genre } = useParams();
+  const { query } = useParams();
+  const { pathname } = useLocation();
 
   // Triggers only after the initial render
   useEffect(() => {
     // Resets the search attributes to allow for url searching
     props.resetSearch();
     setVisitedPages([0]);
+
+    // Scroll to top of page
+    window.scrollTo(0, 0);
+
     // eslint-disable-next-line
-  }, []);
+  }, [pathname]);
 
   // Increase lastPage to render a new set of results
   const handleOnDocumentBottom = () => {
     if (props.lastPage) {
       return;
     }
-    const newLastPage = visitedPages[visitedPages.length - 1] + 1;
-    setVisitedPages([...visitedPages, newLastPage]);
+    const newLastPage = props.pages[props.pages.length - 1] + 1;
+    setVisitedPages([...props.pages, newLastPage]);
     props.addPage(newLastPage);
   };
 
@@ -92,7 +98,7 @@ function SearchPage(props) {
       >
         <Grid item xs={12} sm={4} className={classes.gridItem}>
           <div>
-            Showing results for <b>{query || genre || 'latest releases'}</b>
+            Showing results for <b>{query || 'latest releases'}</b>
           </div>
         </Grid>
         <Grid item xs={12} sm={4} className={classes.gridItem}>
@@ -101,7 +107,7 @@ function SearchPage(props) {
         <Grid item xs={12} sm={4} className={classes.gridItem}>
           <Filters
             updateFilterBar={updateFilterBar}
-            genre={genre || genreValue}
+            genre={genreValue}
             initialYearRange={yearRange}
             initialRatingRange={ratingRange}
           />
