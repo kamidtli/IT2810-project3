@@ -7,3 +7,5 @@ describe('Homepage tests', () => {
     cy.get('#\\35 73a13f0f29313caabdda7ac').should('contain.text', 'Mountains May Depart');
   });
 });
+
+
