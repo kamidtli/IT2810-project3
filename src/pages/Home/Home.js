@@ -2,8 +2,6 @@ import React from 'react';
 import { ThemeProvider, makeStyles } from '@material-ui/styles';
 import { connect } from 'react-redux';
 import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
-import { Link } from 'react-router-dom';
 import PreviewCardList from '../../components/CardList/PreviewCardList';
 import SearchField from '../../components/SearchField/SearchField';
 
@@ -86,24 +84,15 @@ function Home(props, theme) {
         <Box className={classes.contentBox}>
           <h1 className={classes.latestTitle}>Latest releases</h1>
           <PreviewCardList />
-          <div className={classes.viewAllButtonContainer}>
-            <Link to="/search">
-              <Button color="primary">View all</Button>
-            </Link>
-          </div>
         </Box>
 
       </ThemeProvider>
-
-
     </div>
   );
 }
 
 // Empty because we don't need props here, but need the function in 'connect'
-const mapStateToProps = (state) => ({
-
-});
+const mapStateToProps = () => ({});
 
 const mapDispatchToProps = (dispatch) => ({
   addSearch: (searchString) => dispatch({ type: 'NEW_SEARCH', searchString }),

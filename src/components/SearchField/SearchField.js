@@ -34,12 +34,16 @@ function SearchField(props) {
 
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
-      event.target.blur();
-      setQuery(event.target.value);
-      setToResults(true);
-      props.resetSearch();
-      props.addSearch(event.target.value);
-      event.preventDefault();
+      if (!event.target.value) {
+        event.target.blur();
+        event.preventDefault();
+      } else {
+        setQuery(event.target.value);
+        setToResults(true);
+        props.resetSearch();
+        props.addSearch(event.target.value);
+        event.preventDefault();
+      }
     }
   };
 

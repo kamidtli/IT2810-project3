@@ -5,7 +5,7 @@ import {
 import { ThemeProvider, makeStyles } from '@material-ui/styles';
 import Navbar from './components/Navbar/Navbar';
 import Home from './pages/Home/Home';
-import SearchResults from './pages/Search/Search';
+import SearchPage from './pages/Search/Search';
 import DetailedCard from './pages/DetailedCard/DetailedCard';
 import SignIn from './pages/SignIn/SignIn';
 import Watchlist from './pages/Watchlist';
@@ -42,11 +42,8 @@ export default function App() {
           <Route path="/movie/:id">
             <DetailedCard />
           </Route>
-          <Route path="/search/genre/:genre">
-            <SearchResults />
-          </Route>
           <Route path="/search/:query">
-            <SearchResults />
+            <SearchPage />
           </Route>
           <Route path="/watchlist">
             <Watchlist />
