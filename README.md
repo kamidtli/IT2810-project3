@@ -109,7 +109,7 @@ When you type the name of a movie or a director in the search field and press en
 When a user scrolls to the bottom a search result page, a query is sent to the backend to request additional data. The response data is rendered at the bottom of the page and the amount of pages visited is increased in the Redux store to ensure consistency. Every time a query for new data is sent, the amout of data currently rendered is passed as an argument to make sure we don't query and show overlapping data. By implementing dynamic loading we reduce the amount of bandwidth needed, and minimize the overall load on the user. In addition to this the request for data executes in a fraction of the time it takes to request all relevant data.
 
 #### Filtering and sorting
-The filtering and sorting on the web page is done by the graphql query and filters/sorts all relevant data. The GraphQL query takes in search value, genre, year range, and rating range, which are used to filter out the unwanted data. 
+The filtering and sorting on the web page is done by the graphql query. The GraphQL query takes in both search value, genre, year range, and rating range, which are used to filter out the wrong data from the dataset. 
 
 The sorting is done by a built-in function from Mongoose, which sorts either alphabetically, by rating or by release date. 
 
