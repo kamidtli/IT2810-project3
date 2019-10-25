@@ -41,6 +41,15 @@ IMDbest is a website for finding movies. The website has a large database of mov
 
 ## Front end
 
+Homepage
+![Homepage](assets/images/Home.PNG)
+
+Searchpage
+![Homepage](assets/images/Search.PNG)
+
+Watchlist
+![Homepage](assets/images/Watchlist.JPG)
+
 ### React
 
 In this project, we are using React as frontend in combination with Redux as the
@@ -141,7 +150,7 @@ Cypress is a JavaScript framework for end-to-end testing, which makes it easier 
 working.
 
 All cypress test are working properly
-![Alt text](assets/images/cypress_tests.jpg)
+![Cypress test](assets/images/cypress_tests.jpg)
 
 To run the Cypress test write `npm run cypress:run`.
 To open the graphical interface of Cypress write `npm run cypress`
