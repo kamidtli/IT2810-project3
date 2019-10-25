@@ -7,9 +7,6 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
 import Star from '@material-ui/icons/Stars';
 import { Link } from 'react-router-dom';
 import WatchlistButton from '../WatchlistButton/WatchlistButton';
@@ -62,8 +59,8 @@ function MediaCard(props) {
     <Card className={classes.card}>
       <Link
         to={`/movie/${props.id}`}
-        className={classes.link}
-        onClick={() => props.addCurrentId(props.id)}
+        className={`${classes.link} ${classes.spacer}`}
+        onClick={() => (props.addCurrentId(props.id))}
       >
         <CardActionArea>
           <CardMedia
@@ -84,7 +81,6 @@ function MediaCard(props) {
           </CardContent>
         </CardActionArea>
       </Link>
-      <div className={classes.spacer} />
       <CardActions className={classes.actions}>
         <Star className={classes.ratingIcon} />
         <Typography gutterBottom className={classes.rating}>

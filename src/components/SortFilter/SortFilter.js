@@ -3,25 +3,20 @@ import { makeStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import { connect } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
   formControl: {
     margin: theme.spacing(1),
     minWidth: 120,
-  },
-  selectEmpty: {
-    marginTop: theme.spacing(2),
+    width: 150,
   },
 }));
 
-export default function SimpleSelect(props) {
+function SimpleSelect(props) {
   const classes = useStyles();
   const [values, setValues] = React.useState({
-    sortValue: '',
+    sortValue: props.sortValue,
   });
 
   const handleChange = (event) => {
@@ -33,6 +28,7 @@ export default function SimpleSelect(props) {
       ...oldValues,
       [event.target.name]: event.target.value,
     }));
+    props.updateSortFilter(newValue);
     props.onUpdate(newValue);
   };
 
@@ -44,7 +40,6 @@ export default function SimpleSelect(props) {
           onChange={handleChange}
           name="sortValue"
           displayEmpty
-          className={classes.selectEmpty}
         >
           <MenuItem value="">Rating (Highest first)</MenuItem>
           <MenuItem value="imdb">Rating (Lowest first)</MenuItem>
@@ -56,3 +51,13 @@ export default function SimpleSelect(props) {
     </form>
   );
 }
+
+const mapStateToProps = (state) => ({
+  sortValue: state.sortValue,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  updateSortFilter: (sortValue) => dispatch({ type: 'NEW_SORT_VALUE', sortValue }),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SimpleSelect);

@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/styles';
 import { connect } from 'react-redux';
 import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
+import { Typography } from '@material-ui/core';
 import MovieChart from '../../components/MovieChart';
 
 const useStyles = makeStyles((theme) => ({
@@ -71,6 +72,7 @@ function DetailedCard(props) {
       fullplot
       poster
       year
+      genres
       directors
       imdb {
         rating
@@ -92,16 +94,12 @@ function DetailedCard(props) {
           className={classes.media}
         />
       </div>
-      <MovieChart
-        id={data.movie._id}
-        imdbRating={parseFloat(data.movie.imdb.rating)}
-        year={data.movie.year}
-      />
       <div className={classes.textContainer}>
         <div className={classes.infoText}>
           <h1 className={classes.title}>{data.movie.title}</h1>
           <div className={classes.infoElements}>
             <h4 className={classes.infoElement}>{data.movie.year}</h4>
+            {data.movie.genres ? <h4 className={classes.infoElement}>{data.movie.genres[0]}</h4> : <div />}
             {data.movie.directors.map((director, index) => (
               <h4
                 key={data.movie._id.concat(`:${index}`)}
@@ -116,6 +114,12 @@ function DetailedCard(props) {
 
         <div className={classes.descText}>
           <p>{data.movie.fullplot}</p>
+          <h3>{`Rating of '${data.movie.title}' againts other movies from ${data.movie.year}`}</h3>
+          <MovieChart
+            id={data.movie._id}
+            imdbRating={parseFloat(data.movie.imdb.rating)}
+            year={data.movie.year}
+          />
         </div>
       </div>
     </div>
